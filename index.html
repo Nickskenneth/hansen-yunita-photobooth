@@ -7,11 +7,11 @@
 <meta name="theme-color" content="#2F4A3A">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Nunito+Sans:wght@400;600;700&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
     --leaf: #2F4A3A; --moss: #5E7A5A; --sage: #B7C7AE; --mist: #EEF2EA;
-    --petal: #FFFDF8; --pollen: #E9B949; --ink: #1D2A21; --blush: #E7C3B8;
+    --petal: #FFFDF8; --pollen: #D9A93F; --ink: #1D2A21; --blush: #E7C3B8;
     box-sizing: border-box;
     padding-top: env(safe-area-inset-top, 0px);
     padding-bottom: env(safe-area-inset-bottom, 0px);
@@ -28,157 +28,168 @@
   h2 { font-family: "Marcellus", Georgia, serif; font-weight: 400; color: var(--leaf); }
 
   button {
-    font: 700 16px/1 "Nunito Sans", system-ui, sans-serif; border: 0; border-radius: 999px;
-    padding: 17px 28px; cursor: pointer; touch-action: manipulation; color: inherit; background: none;
+    font: 700 17px/1 "Nunito Sans", system-ui, sans-serif; border: 0; border-radius: 999px;
+    padding: 18px 30px; cursor: pointer; touch-action: manipulation; color: inherit;
   }
   button:focus-visible { outline: 3px solid var(--pollen); outline-offset: 3px; }
+  button:disabled { opacity: .5; cursor: default; }
   .primary { background: var(--leaf); color: var(--petal); }
   .primary:active { background: #243a2d; }
-  .quiet { color: var(--leaf); box-shadow: inset 0 0 0 2px var(--sage); }
-  button:disabled { opacity: .45; cursor: default; }
+  .quiet { background: transparent; color: var(--leaf); box-shadow: inset 0 0 0 2px var(--sage); }
 
-  /* Welcome */
-  #welcome { flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 32px 24px; position: relative; overflow: hidden; }
-  #welcome .sprig { position: absolute; width: 190px; pointer-events: none; }
-  #welcome .sprig.tl { top: -20px; left: -40px; transform: rotate(8deg); }
-  #welcome .sprig.br { bottom: -24px; right: -44px; transform: rotate(188deg); }
-  .names { font-family: "Marcellus", Georgia, serif; font-weight: 400; font-size: clamp(44px, 13vw, 72px); line-height: 1.02; color: var(--leaf); margin: 0 0 14px; }
-  .names .amp { display: block; font-family: "Pinyon Script", cursive; font-size: .62em; color: var(--moss); margin: 4px 0 2px; }
-  .date { font-size: 16px; color: var(--moss); margin: 0 0 36px; letter-spacing: .06em; }
-  .lede { max-width: 30ch; margin: 0 auto 32px; color: #3c4a40; }
+  /* Welcome: an invitation card */
+  #welcome { align-items: center; justify-content: center; padding: 20px; }
+  .card {
+    position: relative; width: 100%; max-width: 420px; text-align: center;
+    background: var(--petal); border-radius: 220px 220px 18px 18px;
+    padding: 64px 28px 40px; box-shadow: 0 18px 50px rgba(47,74,58,.14);
+    outline: 1.5px solid var(--sage); outline-offset: -12px; overflow: hidden;
+  }
+  .card .sprig { position: absolute; width: 150px; pointer-events: none; }
+  .card .sprig.tl { top: 40px; left: -46px; transform: rotate(10deg); }
+  .card .sprig.br { bottom: -26px; right: -40px; transform: rotate(190deg); }
+  .seal { width: 76px; height: 76px; margin: 0 auto 18px; display: block; }
+  .names { font-family: "Marcellus", Georgia, serif; font-weight: 400; font-size: clamp(42px, 12vw, 60px);
+    line-height: 1.02; color: var(--leaf); margin: 0 0 12px; }
+  .names .amp { display: block; font-size: .5em; color: var(--moss); margin: 6px 0; }
+  .date { color: var(--moss); margin: 0 0 26px; letter-spacing: .06em; font-size: 15px; }
+  .lede { max-width: 28ch; margin: 0 auto 28px; color: #3c4a40; }
 
   /* Layout picker */
-  #layouts { flex-direction: column; align-items: center; padding: 20px 18px 36px; }
-  #layouts h2 { font-size: 30px; margin: 8px 0 4px; }
-  #layouts .sub { margin: 0 0 22px; color: var(--moss); text-align: center; }
-  .layout-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; width: 100%; max-width: 440px; }
+  #layout { flex-direction: column; align-items: center; padding: 28px 18px 40px; }
+  #layout h2 { font-size: 30px; margin: 4px 0 4px; }
+  #layout .sub { margin: 0 0 22px; color: var(--moss); text-align: center; }
+  .layouts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; width: 100%; max-width: 440px; }
   .lcard {
-    display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 18px 10px 16px;
-    background: var(--petal); border-radius: 18px; box-shadow: inset 0 0 0 2px transparent; color: var(--ink);
+    background: var(--petal); border-radius: 18px; padding: 16px 10px 14px; display: flex; flex-direction: column;
+    align-items: center; gap: 10px; box-shadow: inset 0 0 0 2px transparent; font-weight: 400;
   }
   .lcard:active, .lcard:hover { box-shadow: inset 0 0 0 2px var(--moss); }
-  .mini { height: 118px; display: flex; align-items: center; justify-content: center; }
-  .mini .sheet { background: var(--mist); padding: 5px 5px 16px; border-radius: 3px; display: grid; gap: 4px; box-shadow: 0 2px 8px rgba(47,74,58,.15); }
-  .mini .cell { background: var(--sage); border-radius: 1px; }
-  .lcard strong { font-size: 16px; }
-  .lcard span { font-size: 14px; font-weight: 400; color: var(--moss); margin-top: -8px; }
-  .back-link { margin-top: 22px; }
+  .lcard svg { height: 108px; width: auto; max-width: 100%; }
+  .lcard b { font-size: 16px; color: var(--leaf); }
+  .lcard span { font-size: 14px; color: var(--moss); margin-top: -8px; }
+  .textbtn { background: none; padding: 16px; color: var(--moss); font-weight: 600; margin-top: 12px; }
 
   /* Camera */
   #camera { flex-direction: column; background: var(--leaf); height: 100%; color: var(--petal); }
-  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; gap: 8px; }
-  .topbar button { color: var(--petal); padding: 11px 16px; font-size: 15px; box-shadow: inset 0 0 0 2px var(--moss); }
-  .progress { display: flex; gap: 7px; align-items: center; }
-  .progress i { width: 9px; height: 9px; border-radius: 50%; background: var(--moss); }
-  .progress i.done { background: var(--pollen); }
-  .vf-wrap { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; padding: 4px 12px; }
-  .vf { position: relative; overflow: hidden; background: #000; border-radius: 6px; }
+  .topbar { padding: 12px 16px 6px; text-align: center; font-weight: 600; min-height: 42px; }
+  .vfwrap { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; padding: 6px 14px; }
+  .vf { position: relative; overflow: hidden; background: #0e1a13; border-radius: 6px; box-shadow: 0 0 0 4px var(--petal); }
   video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   video.mirror { transform: scaleX(-1); }
-  .vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,.75) 100%); opacity: 0; }
-  .count { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: "Marcellus", Georgia, serif; font-size: min(30vw, 180px); color: var(--petal); text-shadow: 0 4px 30px rgba(0,0,0,.4); pointer-events: none; }
-  .camerr { padding: 28px; text-align: center; margin: auto; max-width: 34ch; }
-  .chips { display: flex; gap: 8px; overflow-x: auto; padding: 10px 12px; scrollbar-width: none; }
+  .count { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-family: "Marcellus", Georgia, serif; font-size: min(34vw, 220px); color: var(--petal);
+    text-shadow: 0 4px 30px rgba(0,0,0,.35); pointer-events: none; }
+  .thumbs { position: absolute; bottom: 10px; left: 10px; display: flex; gap: 6px; }
+  .thumbs img { width: 44px; height: 44px; object-fit: cover; border-radius: 6px; border: 2px solid var(--petal); }
+  .chips { display: flex; gap: 8px; overflow-x: auto; padding: 10px 16px 4px; scrollbar-width: none; }
   .chips::-webkit-scrollbar { display: none; }
-  .chip { flex: none; padding: 10px 15px; font-size: 14px; font-weight: 600; color: var(--petal); box-shadow: inset 0 0 0 1.5px var(--moss); }
-  .chip[aria-pressed="true"] { background: var(--petal); color: var(--leaf); box-shadow: none; }
-  .controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 20px calc(16px + env(safe-area-inset-bottom, 0px)); }
-  .controls .side { color: var(--petal); padding: 12px 14px; font-size: 14px; min-width: 88px; box-shadow: inset 0 0 0 2px var(--moss); }
-  .shutter { width: 76px; height: 76px; padding: 0; border-radius: 50%; background: var(--petal); box-shadow: 0 0 0 5px var(--leaf), 0 0 0 8px var(--petal); }
-  .flash { position: fixed; inset: 0; background: #fff; opacity: 0; pointer-events: none; transition: opacity .3s; z-index: 20; }
+  .chip { flex: none; padding: 10px 16px; font-size: 15px; font-weight: 600; border-radius: 999px;
+    background: rgba(255,253,248,.12); color: var(--petal); }
+  .chip[aria-pressed="true"] { background: var(--petal); color: var(--leaf); }
+  .controls { display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 12px 20px calc(16px + env(safe-area-inset-bottom, 0px)); }
+  .controls .quiet { color: var(--petal); box-shadow: inset 0 0 0 2px var(--moss); padding: 14px 18px; font-size: 15px; min-width: 80px; }
+  .shutter { width: 76px; height: 76px; padding: 0; border-radius: 50%; background: var(--petal);
+    box-shadow: 0 0 0 5px var(--leaf), 0 0 0 8px var(--petal); }
+  .flash { position: fixed; inset: 0; background: #fff; opacity: 0; pointer-events: none; transition: opacity .25s; z-index: 20; }
   .flash.on { opacity: 1; transition: none; }
 
   /* Review */
-  #review { flex-direction: column; align-items: center; padding: 18px 16px 40px; gap: 16px; }
+  #review { flex-direction: column; align-items: center; padding: 22px 18px 44px; gap: 18px; }
   #review h2 { font-size: 28px; margin: 4px 0 0; }
-  .result { max-width: min(86vw, 380px); max-height: 62vh; width: auto; height: auto; border-radius: 3px; box-shadow: 0 12px 32px rgba(47,74,58,.25); }
-  .pick { width: 100%; max-width: 440px; }
-  .pick > p { margin: 0 0 6px; font-weight: 600; font-size: 15px; color: var(--leaf); }
-  .pick .chips { padding: 2px 0 6px; }
-  .pick .chip { color: var(--leaf); box-shadow: inset 0 0 0 1.5px var(--sage); display: flex; align-items: center; gap: 8px; }
-  .pick .chip[aria-pressed="true"] { background: var(--leaf); color: var(--petal); }
-  .swatch { width: 14px; height: 14px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(0,0,0,.2); }
-  .form { width: 100%; max-width: 440px; display: flex; flex-direction: column; gap: 12px; }
-  label { font-weight: 600; font-size: 15px; color: var(--leaf); }
-  input, textarea { width: 100%; font: 400 16px/1.4 "Nunito Sans", system-ui, sans-serif; color: var(--ink); border: 2px solid var(--sage); background: var(--petal); border-radius: 12px; padding: 12px 14px; margin-top: 6px; }
+  .result { max-width: min(88vw, 420px); max-height: 62vh; width: auto; height: auto; border-radius: 3px;
+    box-shadow: 0 12px 34px rgba(47,74,58,.25); }
+  .panel { width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 14px; }
+  .group-label { font-weight: 700; font-size: 15px; color: var(--leaf); margin: 0 0 8px; }
+  .swatches { display: flex; gap: 10px; }
+  .swatch { flex: 1; padding: 12px 8px; border-radius: 14px; font-size: 15px; font-weight: 600;
+    display: flex; flex-direction: column; align-items: center; gap: 8px; background: var(--petal); color: var(--leaf); }
+  .swatch i { width: 34px; height: 34px; border-radius: 50%; box-shadow: inset 0 0 0 2px rgba(0,0,0,.08); }
+  .swatch[aria-pressed="true"] { box-shadow: inset 0 0 0 2.5px var(--leaf); }
+  #review .chips { padding: 0 0 4px; margin: 0 -2px; }
+  #review .chip { background: var(--petal); color: var(--leaf); }
+  #review .chip[aria-pressed="true"] { background: var(--leaf); color: var(--petal); }
+  label { font-weight: 700; font-size: 15px; color: var(--leaf); }
+  input, textarea { width: 100%; font: 400 16px/1.4 "Nunito Sans", system-ui, sans-serif; color: var(--ink);
+    border: 2px solid var(--sage); background: var(--petal); border-radius: 12px; padding: 12px 14px; margin-top: 6px; }
   input:focus, textarea:focus { outline: none; border-color: var(--moss); }
   textarea { min-height: 80px; resize: vertical; }
-  .actions { width: 100%; max-width: 440px; display: flex; flex-direction: column; gap: 12px; }
-  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .fieldnote { font-weight: 400; font-size: 13px; color: var(--moss); }
   .status { min-height: 1.5em; text-align: center; font-weight: 600; color: var(--leaf); margin: 0; }
   .status.err { color: #9a3b2c; }
-  .hint { font-size: 14px; color: var(--moss); text-align: center; margin: 0; max-width: 36ch; }
+  .hint { font-size: 14px; color: var(--moss); text-align: center; margin: 0; max-width: 34ch; }
+
   @media (prefers-reduced-motion: reduce) { .flash { transition: none; } }
 </style>
 </head>
 <body>
 
 <section id="welcome" class="screen on" aria-labelledby="title">
-  <svg class="sprig tl" viewBox="0 0 200 200" aria-hidden="true"><use href="#sprig"/></svg>
-  <svg class="sprig br" viewBox="0 0 200 200" aria-hidden="true"><use href="#sprig"/></svg>
-  <h1 class="names" id="title">Hansen<span class="amp">&amp;</span>Yunita</h1>
-  <p class="date">17 October 2026</p>
-  <p class="lede">Pick a layout, strike a pose, and your photos go to you and to the couple's album.</p>
-  <button class="primary" id="startBtn">Start the photo booth</button>
+  <div class="card">
+    <svg class="sprig tl" viewBox="0 0 200 200" aria-hidden="true"><use href="#sprig"/></svg>
+    <svg class="sprig br" viewBox="0 0 200 200" aria-hidden="true"><use href="#sprig"/></svg>
+    <svg class="seal" viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r="46" fill="none" stroke="#5E7A5A" stroke-width="2.5"/>
+      <circle cx="50" cy="50" r="39" fill="none" stroke="#B7C7AE" stroke-width="1.2"/>
+      <text x="50" y="59" text-anchor="middle" font-family="Marcellus, Georgia, serif" font-size="27" fill="#2F4A3A">H&amp;Y</text>
+    </svg>
+    <h1 class="names" id="title">Hansen<span class="amp">&amp;</span>Yunita</h1>
+    <p class="date">17 October 2026 · Bali</p>
+    <p class="lede">Pick a layout and a filter, strike a pose, and send your print to the couple's album.</p>
+    <button class="primary" id="startBtn">Start the photo booth</button>
+  </div>
 </section>
 
-<section id="layouts" class="screen" aria-labelledby="layoutsTitle">
-  <h2 id="layoutsTitle">Choose a layout</h2>
-  <p class="sub">You can change the frame and filter after.</p>
-  <div class="layout-grid" id="layoutGrid"></div>
-  <button class="quiet back-link" id="layoutsBack">Back</button>
+<section id="layout" class="screen" aria-labelledby="layoutTitle">
+  <h2 id="layoutTitle">Choose your layout</h2>
+  <p class="sub">You can change the filter and frame color after.</p>
+  <div class="layouts" id="layouts"></div>
+  <button class="textbtn" id="layoutBack">Back</button>
 </section>
 
 <section id="camera" class="screen" aria-label="Camera">
-  <div class="topbar">
-    <button id="camBack">Back</button>
-    <div class="progress" id="progress" aria-label="Photo progress"></div>
-    <button id="timerBtn">Timer 3s</button>
-  </div>
-  <div class="vf-wrap" id="vfWrap">
+  <div class="topbar" id="shotLabel" aria-live="polite"></div>
+  <div class="vfwrap" id="vfwrap">
     <div class="vf" id="vf">
       <video id="video" playsinline muted autoplay class="mirror"></video>
-      <div class="vignette" id="vignette"></div>
       <div class="count" id="count" aria-live="assertive"></div>
+      <div class="thumbs" id="thumbs"></div>
     </div>
   </div>
-  <div class="chips" id="camFilters" role="group" aria-label="Filters"></div>
+  <div class="chips" id="camFilters" role="group" aria-label="Filter"></div>
   <div class="controls">
-    <button class="side" id="flipBtn">Flip</button>
+    <button class="quiet" id="backBtn">Back</button>
     <button class="shutter" id="shutterBtn" aria-label="Start taking photos"></button>
-    <button class="side" id="flashBtn" aria-pressed="true">Flash on</button>
+    <button class="quiet" id="flipBtn">Flip</button>
   </div>
 </section>
 
 <section id="review" class="screen" aria-labelledby="reviewTitle">
-  <h2 id="reviewTitle">Your photos</h2>
-  <img class="result" id="resultImg" alt="Your finished photo booth print">
-  <div class="pick">
-    <p>Frame</p>
-    <div class="chips" id="themeChips" role="group" aria-label="Frame"></div>
-  </div>
-  <div class="pick">
-    <p>Filter</p>
-    <div class="chips" id="reviewFilters" role="group" aria-label="Filter"></div>
-  </div>
-  <div class="form">
-    <label>Your name (optional, shown on your print)
-      <input id="guestName" maxlength="30" autocomplete="name">
+  <h2 id="reviewTitle">Your print</h2>
+  <img class="result" id="resultImg" alt="Your photo booth print">
+  <div class="panel">
+    <div>
+      <p class="group-label">Frame color</p>
+      <div class="swatches" id="swatches" role="group" aria-label="Frame color"></div>
+    </div>
+    <div>
+      <p class="group-label">Filter</p>
+      <div class="chips" id="revFilters" role="group" aria-label="Filter"></div>
+    </div>
+    <label>Your name <span class="fieldnote">(printed on your photo, optional)</span>
+      <input id="guestName" maxlength="28" autocomplete="name">
     </label>
-    <label>A message for Hansen &amp; Yunita (optional)
+    <label>A message for Hansen &amp; Yunita <span class="fieldnote">(optional)</span>
       <textarea id="guestMsg" maxlength="280"></textarea>
     </label>
-  </div>
-  <div class="actions">
     <button class="primary" id="sendBtn">Send to the couple's album</button>
     <p class="status" id="status" role="status"></p>
     <button class="quiet" id="saveBtn">Save to my phone</button>
-    <div class="row2">
-      <button class="quiet" id="retakeBtn">Retake</button>
-      <button class="quiet" id="newLayoutBtn">New layout</button>
-    </div>
+    <button class="quiet" id="retakeBtn">Take new photos</button>
+    <button class="quiet" id="relayoutBtn">Change layout</button>
   </div>
-  <p class="hint">If saving doesn't start, press and hold the photo to save it.</p>
+  <p class="hint">If saving doesn't start, press and hold the print to save it.</p>
 </section>
 
 <div class="flash" id="flash"></div>
@@ -210,360 +221,376 @@
   const ENDPOINT = "https://script.google.com/macros/s/AKfycbzbLQkEyyd7aJXjafC6FZXPVSHr0cjvAhUeN6dErXVRQ5XHVhiKzK33oFmh6AqOrotM/exec";
   const UPLOAD_KEY = "hu-17okt2026-kebun";
 
-  // ---- Options -------------------------------------------------------------
+  // ---------- Layouts: canvas size, photo slots, and the name panel ----------
+  function stack(W, H, m, gap, foot, n) {
+    const w = W - 2 * m, h = (H - m - foot - gap * (n - 1)) / n;
+    const slots = [];
+    for (let i = 0; i < n; i++) slots.push({ x: m, y: m + i * (h + gap), w, h });
+    return { W, H, slots, foot: { x: m, y: H - foot, w, h: foot } };
+  }
+  const grid = (() => {
+    const W = 1200, H = 1800, m = 60, g = 30, f = 380;
+    const w = (W - 2 * m - g) / 2, h = (H - m - f - g) / 2;
+    return { W, H, slots: [
+      { x: m, y: m, w, h }, { x: m + w + g, y: m, w, h },
+      { x: m, y: m + h + g, w, h }, { x: m + w + g, y: m + h + g, w, h }
+    ], foot: { x: m, y: H - f, w: W - 2 * m, h: f } };
+  })();
   const LAYOUTS = [
-    { id: "strip3", name: "Classic strip", desc: "3 photos", cols: 1, rows: 3, aspect: 4 / 3, W: 800 },
-    { id: "strip4", name: "Tall strip", desc: "4 photos", cols: 1, rows: 4, aspect: 4 / 3, W: 760 },
-    { id: "duo", name: "Duo", desc: "2 photos", cols: 1, rows: 2, aspect: 4 / 3, W: 900 },
-    { id: "grid", name: "Grid", desc: "4 photos", cols: 2, rows: 2, aspect: 3 / 4, W: 1100 },
-    { id: "portrait", name: "Portrait", desc: "1 photo", cols: 1, rows: 1, aspect: 3 / 4, W: 1000 },
-    { id: "landscape", name: "Landscape", desc: "1 photo", cols: 1, rows: 1, aspect: 4 / 3, W: 1300 }
+    { id: "strip3", name: "Classic strip", note: "3 photos", ...stack(600, 1800, 36, 18, 300, 3) },
+    { id: "strip4", name: "Long strip", note: "4 photos", ...stack(600, 1800, 36, 16, 250, 4) },
+    { id: "duo", name: "Duo", note: "2 photos", ...stack(1200, 1800, 60, 30, 380, 2) },
+    { id: "grid", name: "Grid", note: "4 photos", ...grid },
+    { id: "portrait", name: "Portrait", note: "1 photo", ...stack(1200, 1800, 60, 0, 380, 1) },
+    { id: "landscape", name: "Landscape", note: "1 photo",
+      W: 1800, H: 1200, slots: [{ x: 60, y: 60, w: 1320, h: 1080 }], foot: { x: 1380, y: 60, w: 420, h: 1080 } }
   ];
+
+  // ---------- Frame colors ----------
+  const THEMES = {
+    garden:  { name: "Garden",  bg: "#EEF2EA", mat: "#FFFDF8", ink: "#2F4A3A", sub: "#5E7A5A", line: "#B7C7AE",
+               leaves: ["#2F4A3A", "#5E7A5A", "#B7C7AE"], petal: "#FFFDF8", petalEdge: "#E7C3B8", texture: .07 },
+    moonlit: { name: "Moonlit", bg: "#22382C", mat: "#F3EAD7", ink: "#F3EAD7", sub: "#D2B26A", line: "#D2B26A",
+               leaves: ["#7FA07A", "#A9C2A0", "#4E6E55"], petal: "#FBF5E8", petalEdge: "#D2B26A", texture: .10 },
+    blush:   { name: "Blush",   bg: "#F4E3DC", mat: "#FFFBF8", ink: "#5B3A35", sub: "#9A6A5D", line: "#D9B3A6",
+               leaves: ["#2F4A3A", "#5E7A5A", "#9FB597"], petal: "#FFFDF8", petalEdge: "#D99C8C", texture: .06 }
+  };
+
+  // ---------- Filters: live preview (CSS) + what gets printed (pixels) ----------
   const FILTERS = [
-    { id: "natural", name: "Natural", ops: [] },
-    { id: "fresh", name: "Fresh", ops: [["saturate", 1.25], ["contrast", 1.06], ["brightness", 1.04]] },
-    { id: "warm", name: "Warm glow", ops: [["sepia", .2], ["saturate", 1.15], ["brightness", 1.07]] },
-    { id: "vintage", name: "Vintage", ops: [["sepia", .42], ["saturate", .85], ["contrast", .9], ["brightness", 1.07]], vignette: .35 },
-    { id: "film", name: "Old film", ops: [["contrast", 1.14], ["saturate", .75], ["sepia", .14]], vignette: .5, grain: 22 },
-    { id: "bw", name: "B&W", ops: [["grayscale", 1], ["contrast", 1.28], ["brightness", 1.02]] },
-    { id: "softbw", name: "Soft B&W", ops: [["grayscale", 1], ["contrast", .88], ["brightness", 1.12]] },
-    { id: "sepia", name: "Sepia", ops: [["sepia", .85], ["contrast", 1.06]], vignette: .25 }
-  ];
-  const THEMES = [
-    { id: "garden", name: "Garden", swatch: "#B7C7AE", bg: "#EEF2EA", mat: "#FFFDF8", name1: "#2F4A3A", sub: "#5E7A5A", font: "Marcellus" },
-    { id: "frangipani", name: "Frangipani", swatch: "#F3D9CF", bg: "#FFFDF8", mat: "#F4E4DD", name1: "#8E5E4B", sub: "#A98272", font: "Pinyon Script" },
-    { id: "night", name: "Night garden", swatch: "#1F3328", bg: "#1F3328", mat: null, line: "#D9B870", name1: "#E6C98A", sub: "#CFD9C8", font: "Marcellus" },
-    { id: "classic", name: "Classic black", swatch: "#141414", bg: "#141414", mat: null, name1: "#F2F2F2", sub: "#A8A8A8", font: "Marcellus" }
+    { id: "natural", name: "Natural", css: "none", p: null },
+    { id: "bw", name: "Black & White", css: "grayscale(1) contrast(1.08)", p: { sat: 0, contrast: 1.08 } },
+    { id: "noir", name: "Noir", css: "grayscale(1) contrast(1.45) brightness(.95)", p: { sat: 0, contrast: 1.45, bright: -8, grain: 12, vignette: .45 } },
+    { id: "vintage", name: "Vintage", css: "sepia(.45) saturate(.8) contrast(.9) brightness(1.05)", p: { sepia: .45, sat: .8, contrast: .9, bright: 8, fade: 22, vignette: .3 } },
+    { id: "warm", name: "Warm", css: "sepia(.12) saturate(1.2) brightness(1.05)", p: { sat: 1.18, warm: 16, bright: 6 } },
+    { id: "film", name: "Film", css: "contrast(.9) saturate(.85) brightness(1.08)", p: { sat: .85, contrast: .92, fade: 20, warm: 6, grain: 14, vignette: .2 } }
   ];
 
   const $ = (id) => document.getElementById(id);
   const video = $("video");
-  const S = { layout: LAYOUTS[0], filter: FILTERS[0], theme: THEMES[0], timer: 3, flash: true,
-              facing: "user", stream: null, busy: false, raw: [], mirrored: true, cache: {},
-              dataUrl: "", blob: null, sent: false };
+  const state = { layout: LAYOUTS[0], theme: "garden", filter: "natural", facing: "user" };
+  let stream = null, busy = false, raws = [], resultBlob = null, resultUrl = "", sent = false;
 
   function show(id) {
     document.querySelectorAll(".screen").forEach((s) => s.classList.toggle("on", s.id === id));
     window.scrollTo(0, 0);
-    if (id === "camera") requestAnimationFrame(fitViewfinder);
   }
 
-  // ---- Layout picker -------------------------------------------------------
-  function buildLayoutCards() {
-    const grid = $("layoutGrid");
-    LAYOUTS.forEach((L) => {
-      const b = document.createElement("button");
-      b.className = "lcard";
-      const cellW = L.cols === 1 ? (L.aspect > 1 ? (L.rows > 2 ? 44 : 62) : 58) : 36;
-      const cellH = Math.round(cellW / L.aspect);
-      b.innerHTML = '<div class="mini"><div class="sheet" style="grid-template-columns:repeat(' + L.cols + ',' + cellW + 'px)">' +
-        Array.from({ length: L.cols * L.rows }, () => '<div class="cell" style="height:' + cellH + 'px"></div>').join("") +
-        '</div></div><strong>' + L.name + '</strong><span>' + L.desc + '</span>';
-      b.onclick = () => { S.layout = L; openCamera(); };
-      grid.appendChild(b);
-    });
+  // ---------- Layout picker ----------
+  function thumbSvg(L) {
+    const r = L.slots.map((s) => `<rect x="${s.x}" y="${s.y}" width="${s.w}" height="${s.h}" rx="${L.W / 60}" fill="#B7C7AE"/>`).join("");
+    const f = L.foot;
+    const bar = f.w > 700
+      ? `<rect x="${f.x + f.w * .25}" y="${f.y + f.h * .38}" width="${f.w * .5}" height="${f.h * .12}" rx="${f.h * .06}" fill="#5E7A5A"/>`
+      : `<rect x="${f.x + f.w * .2}" y="${f.y + f.h * .4}" width="${f.w * .6}" height="${Math.min(f.h * .12, 60)}" rx="10" fill="#5E7A5A"/>`;
+    return `<svg viewBox="0 0 ${L.W} ${L.H}" aria-hidden="true"><rect width="${L.W}" height="${L.H}" rx="${L.W / 40}" fill="#EEF2EA" stroke="#2F4A3A" stroke-width="${L.W / 90}"/>${r}${bar}</svg>`;
   }
+  $("layouts").innerHTML = LAYOUTS.map((L) =>
+    `<button class="lcard" data-id="${L.id}">${thumbSvg(L)}<b>${L.name}</b><span>${L.note}</span></button>`).join("");
+  $("layouts").addEventListener("click", async (e) => {
+    const b = e.target.closest(".lcard"); if (!b) return;
+    state.layout = LAYOUTS.find((L) => L.id === b.dataset.id);
+    await openCamera();
+  });
 
-  // ---- Filters -------------------------------------------------------------
-  function cssFilter(F) { return F.ops.map(([k, v]) => k + "(" + v + ")").join(" ") || "none"; }
-  function opMatrix(k, v) {
-    const s = 1 - v;
-    switch (k) {
-      case "grayscale": return [[.2126 + .7874 * s, .7152 - .7152 * s, .0722 - .0722 * s, 0], [.2126 - .2126 * s, .7152 + .2848 * s, .0722 - .0722 * s, 0], [.2126 - .2126 * s, .7152 - .7152 * s, .0722 + .9278 * s, 0]];
-      case "sepia": return [[.393 + .607 * s, .769 - .769 * s, .189 - .189 * s, 0], [.349 - .349 * s, .686 + .314 * s, .168 - .168 * s, 0], [.272 - .272 * s, .534 - .534 * s, .131 + .869 * s, 0]];
-      case "saturate": return [[.213 + .787 * v, .715 - .715 * v, .072 - .072 * v, 0], [.213 - .213 * v, .715 + .285 * v, .072 - .072 * v, 0], [.213 - .213 * v, .715 - .715 * v, .072 + .928 * v, 0]];
-      case "brightness": return [[v, 0, 0, 0], [0, v, 0, 0], [0, 0, v, 0]];
-      case "contrast": return [[v, 0, 0, (1 - v) / 2], [0, v, 0, (1 - v) / 2], [0, 0, v, (1 - v) / 2]];
-    }
+  // ---------- Filter chips ----------
+  function renderChips(el) {
+    el.innerHTML = FILTERS.map((f) => `<button class="chip" data-id="${f.id}" aria-pressed="${f.id === state.filter}">${f.name}</button>`).join("");
   }
-  function compose(A, B) { // A applied after B
-    return A.map((r) => [0, 1, 2, 3].map((j) => r[0] * B[0][j] + r[1] * B[1][j] + r[2] * B[2][j] + (j === 3 ? r[3] : 0)));
+  function setFilter(id) {
+    state.filter = id;
+    renderChips($("camFilters")); renderChips($("revFilters"));
+    video.style.filter = FILTERS.find((f) => f.id === id).css;
   }
-  function applyFilter(src, F) {
-    const c = document.createElement("canvas"); c.width = src.width; c.height = src.height;
-    const x = c.getContext("2d"); x.drawImage(src, 0, 0);
-    if (F.ops.length) {
-      let M = [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0]];
-      F.ops.forEach(([k, v]) => { M = compose(opMatrix(k, v), M); });
-      const img = x.getImageData(0, 0, c.width, c.height), d = img.data, g = F.grain || 0;
-      const m = M.map((r) => [r[0], r[1], r[2], r[3] * 255]);
-      for (let i = 0; i < d.length; i += 4) {
-        const r = d[i], gg = d[i + 1], b = d[i + 2], n = g ? (Math.random() - .5) * g : 0;
-        d[i] = m[0][0] * r + m[0][1] * gg + m[0][2] * b + m[0][3] + n;
-        d[i + 1] = m[1][0] * r + m[1][1] * gg + m[1][2] * b + m[1][3] + n;
-        d[i + 2] = m[2][0] * r + m[2][1] * gg + m[2][2] * b + m[2][3] + n;
-      }
-      x.putImageData(img, 0, 0);
-    }
-    if (F.vignette) {
-      const w = c.width, h = c.height, gr = x.createRadialGradient(w / 2, h / 2, Math.min(w, h) * .35, w / 2, h / 2, Math.hypot(w, h) / 2);
-      gr.addColorStop(0, "rgba(0,0,0,0)"); gr.addColorStop(1, "rgba(0,0,0," + F.vignette + ")");
-      x.fillStyle = gr; x.fillRect(0, 0, w, h);
-    }
-    return c;
-  }
-  function filterChips(el, onPick) {
-    el.innerHTML = "";
-    FILTERS.forEach((F) => {
-      const b = document.createElement("button");
-      b.className = "chip"; b.textContent = F.name; b.dataset.id = F.id;
-      b.setAttribute("aria-pressed", String(F === S.filter));
-      b.onclick = () => { S.filter = F; syncFilterChips(); onPick(); };
-      el.appendChild(b);
-    });
-  }
-  function syncFilterChips() {
-    document.querySelectorAll("#camFilters .chip, #reviewFilters .chip").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.id === S.filter.id)));
-  }
-  function previewFilter() {
-    video.style.filter = cssFilter(S.filter);
-    $("vignette").style.opacity = S.filter.vignette ? Math.min(1, S.filter.vignette * 1.4) : 0;
-  }
+  $("camFilters").addEventListener("click", (e) => { const b = e.target.closest(".chip"); if (b && !busy) setFilter(b.dataset.id); });
+  $("revFilters").addEventListener("click", (e) => { const b = e.target.closest(".chip"); if (b) { setFilter(b.dataset.id); compose(); } });
 
-  // ---- Camera --------------------------------------------------------------
-  function fitViewfinder() {
-    const wrap = $("vfWrap"), vf = $("vf");
-    const aw = wrap.clientWidth - 24, ah = wrap.clientHeight - 8, a = S.layout.aspect;
-    let w = aw, h = aw / a;
-    if (h > ah) { h = ah; w = ah * a; }
-    vf.style.width = Math.max(0, w) + "px"; vf.style.height = Math.max(0, h) + "px";
+  // ---------- Frame swatches ----------
+  function renderSwatches() {
+    $("swatches").innerHTML = Object.entries(THEMES).map(([id, t]) =>
+      `<button class="swatch" data-id="${id}" aria-pressed="${id === state.theme}"><i style="background:${t.bg}"></i>${t.name}</button>`).join("");
   }
-  window.addEventListener("resize", () => { if ($("camera").classList.contains("on")) fitViewfinder(); });
+  $("swatches").addEventListener("click", (e) => { const b = e.target.closest(".swatch"); if (b) { state.theme = b.dataset.id; renderSwatches(); compose(); } });
 
-  function renderProgress(done) {
-    const n = S.layout.cols * S.layout.rows;
-    $("progress").innerHTML = Array.from({ length: n }, (_, i) => '<i class="' + (i < done ? "done" : "") + '"></i>').join("");
+  // ---------- Camera ----------
+  function sizeViewfinder() {
+    const s = state.layout.slots[0], a = s.w / s.h;
+    const wrap = $("vfwrap").getBoundingClientRect();
+    const maxW = wrap.width - 28, maxH = wrap.height - 12;
+    let w = maxW, h = w / a;
+    if (h > maxH) { h = maxH; w = h * a; }
+    $("vf").style.width = Math.max(0, w) + "px"; $("vf").style.height = Math.max(0, h) + "px";
   }
+  window.addEventListener("resize", () => { if ($("camera").classList.contains("on")) sizeViewfinder(); });
 
   async function startCamera() {
     stopCamera();
     try {
-      S.stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: S.facing, width: { ideal: 1920 }, height: { ideal: 1440 } }, audio: false });
-      video.srcObject = S.stream;
-      video.classList.toggle("mirror", S.facing === "user");
+      stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: state.facing, width: { ideal: 1920 }, height: { ideal: 1440 } }, audio: false
+      });
+      video.srcObject = stream;
+      video.classList.toggle("mirror", state.facing === "user");
       await video.play().catch(() => {});
       $("shutterBtn").disabled = false;
+      return true;
     } catch (e) {
-      $("count").innerHTML = '<p class="camerr">The camera is blocked. Allow camera access for this page in your browser settings, then reload the page.</p>';
-      $("count").style.fontSize = "17px";
+      $("shotLabel").textContent = "The camera is blocked. Allow camera access for this page in your browser settings, then reload.";
       $("shutterBtn").disabled = true;
+      return false;
     }
   }
-  function stopCamera() { if (S.stream) S.stream.getTracks().forEach((t) => t.stop()); S.stream = null; }
+  function stopCamera() { if (stream) stream.getTracks().forEach((t) => t.stop()); stream = null; }
 
   async function openCamera() {
-    renderProgress(0);
-    $("count").textContent = ""; $("count").style.fontSize = "";
-    previewFilter();
     show("camera");
+    raws = []; $("thumbs").innerHTML = "";
+    const n = state.layout.slots.length;
+    $("shotLabel").textContent = n === 1 ? "Tap the button when you're ready" : `Tap the button to take ${n} photos`;
+    renderChips($("camFilters"));
+    sizeViewfinder();
     await startCamera();
+    sizeViewfinder();
   }
 
   const wait = (ms) => new Promise((r) => setTimeout(r, ms));
-  function grabFrame() {
-    const vw = video.videoWidth, vh = video.videoHeight, a = S.layout.aspect;
+
+  // Capture exactly what the viewfinder shows: a centered crop at the slot's shape.
+  function grabRaw(slot) {
+    const vw = video.videoWidth, vh = video.videoHeight, a = slot.w / slot.h;
     let sw = vw, sh = vw / a;
     if (sh > vh) { sh = vh; sw = vh * a; }
-    const long = 1400;
     const c = document.createElement("canvas");
-    if (a >= 1) { c.width = long; c.height = Math.round(long / a); } else { c.height = long; c.width = Math.round(long * a); }
+    c.width = Math.round(slot.w); c.height = Math.round(slot.h);
     const x = c.getContext("2d");
-    if (S.facing === "user") { x.translate(c.width, 0); x.scale(-1, 1); }
+    if (state.facing === "user") { x.translate(c.width, 0); x.scale(-1, 1); }
     x.drawImage(video, (vw - sw) / 2, (vh - sh) / 2, sw, sh, 0, 0, c.width, c.height);
     return c;
   }
 
-  function setCamButtons(on) { ["shutterBtn", "flipBtn", "flashBtn", "timerBtn", "camBack"].forEach((id) => { $(id).disabled = !on; }); }
-
   async function runSequence() {
-    if (S.busy || !S.stream) return;
-    S.busy = true; S.raw = []; S.cache = {};
-    setCamButtons(false);
-    const n = S.layout.cols * S.layout.rows;
-    for (let i = 0; i < n; i++) {
-      renderProgress(i);
-      for (let t = S.timer; t > 0; t--) { $("count").textContent = t; await wait(1000); }
+    if (busy || !stream) return;
+    busy = true; raws = []; $("thumbs").innerHTML = "";
+    ["shutterBtn", "flipBtn", "backBtn"].forEach((id) => $(id).disabled = true);
+    const slots = state.layout.slots;
+    for (let i = 0; i < slots.length; i++) {
+      $("shotLabel").textContent = slots.length > 1 ? `Photo ${i + 1} of ${slots.length}` : "Smile!";
+      for (let n = 3; n > 0; n--) { $("count").textContent = n; await wait(900); }
       $("count").textContent = "";
-      if (S.flash) { $("flash").classList.add("on"); await wait(140); }
-      S.raw.push(grabFrame());
+      $("flash").classList.add("on");  // bright screen helps front cameras in low light
+      await wait(120);
+      const raw = grabRaw(slots[i]);
+      raws.push(raw);
       $("flash").classList.remove("on");
-      renderProgress(i + 1);
-      await wait(600);
+      const t = new Image(); t.alt = ""; t.src = raw.toDataURL("image/jpeg", .4);
+      $("thumbs").appendChild(t);
+      await wait(650);
     }
+    $("shotLabel").textContent = "Printing…";
     stopCamera();
-    S.busy = false; setCamButtons(true);
-    resetSend();
-    await renderPrint();
+    await compose();
+    busy = false;
+    ["shutterBtn", "flipBtn", "backBtn"].forEach((id) => $(id).disabled = false);
+    renderSwatches(); renderChips($("revFilters"));
     show("review");
   }
 
-  // ---- Drawing helpers -----------------------------------------------------
-  function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
-  function leaf(x, cx, cy, len, ang, color) {
-    x.save(); x.translate(cx, cy); x.rotate(ang); x.fillStyle = color; x.beginPath();
-    x.moveTo(0, 0); x.bezierCurveTo(len * .3, -len * .28, len * .75, -len * .22, len, 0);
-    x.bezierCurveTo(len * .75, len * .22, len * .3, len * .28, 0, 0); x.fill(); x.restore();
-  }
-  function blossom(x, cx, cy, r, rot, petal, edge, heart) {
-    x.save(); x.translate(cx, cy); x.rotate(rot);
-    for (let i = 0; i < 5; i++) {
-      x.save(); x.rotate(i * Math.PI * 2 / 5); x.beginPath();
-      x.ellipse(r * .35, -r * .55, r * .38, r * .72, .5, 0, Math.PI * 2);
-      x.fillStyle = petal; x.fill(); x.strokeStyle = edge; x.lineWidth = Math.max(1, r * .05); x.stroke(); x.restore();
-    }
-    const g = x.createRadialGradient(0, 0, 0, 0, 0, r * .5);
-    g.addColorStop(0, heart); g.addColorStop(1, "rgba(233,185,73,0)");
-    x.fillStyle = g; x.beginPath(); x.arc(0, 0, r * .5, 0, Math.PI * 2); x.fill(); x.restore();
-  }
-  function sprig(x, px, py, sc, flip, cols) {
-    x.save(); x.translate(px, py); x.scale(flip ? -sc : sc, sc);
-    x.strokeStyle = cols[0]; x.lineWidth = 4; x.lineCap = "round";
-    x.beginPath(); x.moveTo(0, 0); x.bezierCurveTo(60, -40, 120, -60, 210, -70); x.stroke();
-    leaf(x, 40, -22, 80, -1.9, cols[1]); leaf(x, 70, -38, 90, -.2, cols[0]); leaf(x, 110, -52, 85, -1.7, cols[2]);
-    leaf(x, 150, -62, 80, .1, cols[1]); leaf(x, 185, -68, 60, -1.3, cols[0]);
-    if (cols[3]) { blossom(x, 215, -72, 38, .3, cols[3], "#E7C3B8", "#E9B949"); blossom(x, 150, -100, 26, 1.1, cols[3], "#E7C3B8", "#E9B949"); }
-    x.restore();
-  }
-
-  // ---- Compose the print ---------------------------------------------------
-  async function renderPrint() {
-    try { await Promise.all(['64px "Marcellus"', '80px "Pinyon Script"', '600 26px "Nunito Sans"'].map((f) => document.fonts.load(f))); } catch (e) {}
-    const L = S.layout, T = S.theme, F = S.filter;
-    const u = Math.min(L.W, 1000) / 800;
-    const M = Math.round((L.cols === 1 && L.rows === 1 ? 60 : 44) * u), G = Math.round(22 * u);
-    const FOOT = Math.round((L.rows >= 3 ? 290 : 260) * u);
-    const PW = (L.W - 2 * M - (L.cols - 1) * G) / L.cols, PH = PW / L.aspect;
-    const W = L.W, H = Math.round(M + L.rows * PH + (L.rows - 1) * G + FOOT);
-    const c = document.createElement("canvas"); c.width = W; c.height = H;
-    const x = c.getContext("2d");
-    const R = rng(17102026);
-
-    // paper
-    x.fillStyle = T.bg; x.fillRect(0, 0, W, H);
-    if (T.id === "garden") { x.globalAlpha = .08; for (let i = 0; i < 18; i++) leaf(x, R() * W, R() * H, 70 * u, R() * 6.28, "#2F4A3A"); x.globalAlpha = 1; }
-    if (T.id === "night") { x.globalAlpha = .12; for (let i = 0; i < 22; i++) leaf(x, R() * W, R() * H, 90 * u, R() * 6.28, "#8FB08A"); x.globalAlpha = 1; }
-    if (T.id === "frangipani") {
-      for (let i = 0; i < 26; i++) {
-        const edge = R(), side = Math.floor(R() * 4), r = (14 + R() * 16) * u;
-        const px = side === 0 ? edge * W : side === 1 ? W - R() * M : side === 2 ? edge * W : R() * M;
-        const py = side === 0 ? R() * M : side === 1 ? edge * H : side === 2 ? H - R() * M * .8 : edge * H;
-        blossom(x, px, py, r, R() * 6.28, "#FFFFFF", "#EBC9BC", "#EFC45E");
+  // ---------- Pixel filters ----------
+  function applyFilter(ctx, w, h, p) {
+    if (!p) return;
+    const img = ctx.getImageData(0, 0, w, h), d = img.data;
+    const con = p.contrast ?? 1, sat = p.sat ?? 1, br = p.bright ?? 0, sep = p.sepia ?? 0,
+          warm = p.warm ?? 0, fade = p.fade ?? 0, grain = p.grain ?? 0, keep = 1 - fade / 255;
+    for (let i = 0; i < d.length; i += 4) {
+      let r = d[i] + br, g = d[i + 1] + br, b = d[i + 2] + br;
+      const l = .299 * r + .587 * g + .114 * b;
+      r = l + (r - l) * sat; g = l + (g - l) * sat; b = l + (b - l) * sat;
+      if (sep) {
+        const sr = .393 * r + .769 * g + .189 * b, sg = .349 * r + .686 * g + .168 * b, sb = .272 * r + .534 * g + .131 * b;
+        r += (sr - r) * sep; g += (sg - g) * sep; b += (sb - b) * sep;
       }
+      r = (r - 128) * con + 128; g = (g - 128) * con + 128; b = (b - 128) * con + 128;
+      r += warm; b -= warm;
+      if (fade) { r = fade + r * keep; g = fade + g * keep; b = fade + b * keep; }
+      if (grain) { const n = (Math.random() - .5) * grain; r += n; g += n; b += n; }
+      d[i] = r; d[i + 1] = g; d[i + 2] = b;
     }
+    ctx.putImageData(img, 0, 0);
+    if (p.vignette) {
+      const gr = ctx.createRadialGradient(w / 2, h / 2, Math.min(w, h) * .35, w / 2, h / 2, Math.hypot(w, h) / 2);
+      gr.addColorStop(0, "rgba(0,0,0,0)"); gr.addColorStop(1, `rgba(0,0,0,${p.vignette})`);
+      ctx.fillStyle = gr; ctx.fillRect(0, 0, w, h);
+    }
+  }
 
-    // photos
-    const cacheKey = F.id;
-    if (!S.cache[cacheKey]) S.cache[cacheKey] = S.raw.map((r) => applyFilter(r, F));
-    const shots = S.cache[cacheKey];
-    shots.forEach((p, i) => {
-      const col = i % L.cols, row = Math.floor(i / L.cols);
-      const px = M + col * (PW + G), py = M + row * (PH + G);
-      if (T.mat) { x.fillStyle = T.mat; x.fillRect(px - 6 * u, py - 6 * u, PW + 12 * u, PH + 12 * u); }
-      x.drawImage(p, px, py, PW, PH);
-      if (T.line) { x.strokeStyle = T.line; x.lineWidth = 1.5 * u; x.strokeRect(px - 5 * u, py - 5 * u, PW + 10 * u, PH + 10 * u); }
+  // ---------- Botanical drawing ----------
+  function leaf(ctx, cx, cy, len, ang, color) {
+    ctx.save(); ctx.translate(cx, cy); ctx.rotate(ang); ctx.fillStyle = color; ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.bezierCurveTo(len * .3, -len * .28, len * .75, -len * .22, len, 0);
+    ctx.bezierCurveTo(len * .75, len * .22, len * .3, len * .28, 0, 0);
+    ctx.fill();
+    ctx.strokeStyle = "rgba(255,253,248,.35)"; ctx.lineWidth = Math.max(1, len / 50);
+    ctx.beginPath(); ctx.moveTo(len * .08, 0); ctx.lineTo(len * .9, 0); ctx.stroke();
+    ctx.restore();
+  }
+  function frangipani(ctx, cx, cy, r, rot, T) {
+    ctx.save(); ctx.translate(cx, cy); ctx.rotate(rot);
+    for (let i = 0; i < 5; i++) {
+      ctx.save(); ctx.rotate(i * Math.PI * 2 / 5); ctx.beginPath();
+      ctx.ellipse(r * .35, -r * .55, r * .38, r * .72, .5, 0, Math.PI * 2);
+      ctx.fillStyle = T.petal; ctx.fill(); ctx.strokeStyle = T.petalEdge; ctx.lineWidth = Math.max(1, r / 18); ctx.stroke();
+      ctx.restore();
+    }
+    const g = ctx.createRadialGradient(0, 0, 0, 0, 0, r * .45);
+    g.addColorStop(0, "#E9B949"); g.addColorStop(1, "rgba(233,185,73,0)");
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(0, 0, r * .45, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+  }
+  function sprig(ctx, x, y, s, flip, T) {
+    const [a, b, c] = T.leaves;
+    ctx.save(); ctx.translate(x, y); ctx.scale(flip ? -s : s, s);
+    ctx.strokeStyle = b; ctx.lineWidth = 4; ctx.lineCap = "round";
+    ctx.beginPath(); ctx.moveTo(0, 0); ctx.bezierCurveTo(60, -40, 120, -60, 210, -70); ctx.stroke();
+    leaf(ctx, 40, -22, 80, -1.9, a); leaf(ctx, 70, -38, 90, -.2, b); leaf(ctx, 110, -52, 85, -1.7, c);
+    leaf(ctx, 150, -62, 80, .1, a); leaf(ctx, 185, -68, 60, -1.3, b);
+    frangipani(ctx, 215, -72, 38, .3, T); frangipani(ctx, 150, -100, 26, 1.1, T);
+    ctx.restore();
+  }
+  function seal(ctx, cx, cy, r, T) {
+    ctx.save();
+    ctx.strokeStyle = T.sub; ctx.lineWidth = r * .06;
+    ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.stroke();
+    ctx.strokeStyle = T.line; ctx.lineWidth = r * .025;
+    ctx.beginPath(); ctx.arc(cx, cy, r * .84, 0, Math.PI * 2); ctx.stroke();
+    ctx.fillStyle = T.ink; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.font = `${Math.round(r * .62)}px "Marcellus", Georgia, serif`;
+    ctx.fillText("H&Y", cx, cy + r * .04);
+    ctx.restore();
+  }
+
+  function nameBlock(ctx, F, T, guest) {
+    const cx = F.x + F.w / 2;
+    ctx.save(); ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
+    const marc = (px) => `${Math.round(px)}px "Marcellus", Georgia, serif`;
+    const sans = (px) => `600 ${Math.round(px)}px "Nunito Sans", system-ui, sans-serif`;
+    const ital = (px) => `italic 400 ${Math.round(px)}px "Nunito Sans", system-ui, sans-serif`;
+    if (F.w < 700) {
+      // stacked names for strips and the landscape side panel
+      const size = Math.min(F.w * .15, F.h * .2, 96);
+      const hasSeal = F.h > 500;
+      const sealR = size * .9;
+      const blockH = size * 3.1 + (guest ? size * .62 : 0) + (hasSeal ? sealR * 2 + size * .6 : 0);
+      let y = F.y + (F.h - blockH) / 2;
+      if (hasSeal) { seal(ctx, cx, y + sealR, sealR, T); y += sealR * 2 + size * .6; }
+      ctx.fillStyle = T.ink; ctx.font = marc(size);
+      y += size * .82; ctx.fillText("Hansen", cx, y);
+      ctx.fillStyle = T.sub; ctx.font = marc(size * .5); y += size * .62; ctx.fillText("&", cx, y);
+      ctx.fillStyle = T.ink; ctx.font = marc(size); y += size * .98; ctx.fillText("Yunita", cx, y);
+      ctx.fillStyle = T.sub; ctx.font = sans(size * .3); y += size * .62; ctx.fillText("17 · 10 · 2026  ·  BALI", cx, y);
+      if (guest) { ctx.font = ital(size * .32); y += size * .62; ctx.fillText("with love, " + guest, cx, y); }
+    } else {
+      const size = Math.min(F.w * .075, F.h * .24);
+      const sealR = size * .62;
+      const blockH = size * 1.85 + sealR * 2 + (guest ? size * .6 : 0);
+      let y = F.y + (F.h - blockH) / 2;
+      ctx.fillStyle = T.ink; ctx.font = marc(size); y += size * .8; ctx.fillText("Hansen & Yunita", cx, y);
+      ctx.fillStyle = T.sub; ctx.font = sans(size * .3); y += size * .6; ctx.fillText("17 October 2026  ·  Bali", cx, y);
+      y += size * .45 + sealR;
+      ctx.strokeStyle = T.line; ctx.lineWidth = Math.max(2, size * .03);
+      ctx.beginPath(); ctx.moveTo(cx - sealR * 4, y); ctx.lineTo(cx - sealR * 1.4, y); ctx.moveTo(cx + sealR * 1.4, y); ctx.lineTo(cx + sealR * 4, y); ctx.stroke();
+      seal(ctx, cx, y, sealR, T);
+      if (guest) { ctx.fillStyle = T.sub; ctx.font = ital(size * .33); y += sealR + size * .55; ctx.fillText("with love, " + guest, cx, y); }
+    }
+    ctx.restore();
+  }
+
+  // ---------- Compose the print ----------
+  let composeTimer = null;
+  async function compose() {
+    if (!raws.length) return;
+    try { await Promise.all([document.fonts.load('64px "Marcellus"'), document.fonts.load('600 26px "Nunito Sans"'), document.fonts.load('italic 400 26px "Nunito Sans"')]); } catch (e) {}
+    const L = state.layout, T = THEMES[state.theme], F = FILTERS.find((f) => f.id === state.filter);
+    const guest = $("guestName").value.trim().slice(0, 28);
+    const c = document.createElement("canvas"); c.width = L.W; c.height = L.H;
+    const x = c.getContext("2d");
+    const s = L.W / 800;
+
+    x.fillStyle = T.bg; x.fillRect(0, 0, L.W, L.H);
+    x.globalAlpha = T.texture;
+    for (let i = 0; i < 18; i++) leaf(x, (i * 137) % L.W, 40 + (i * 211) % (L.H - 80), 70 * Math.max(1, s), (i * 1.3) % 6.28, T.leaves[i % 3]);
+    x.globalAlpha = 1;
+
+    L.slots.forEach((slot, i) => {
+      const raw = raws[i]; if (!raw) return;
+      const p = document.createElement("canvas"); p.width = raw.width; p.height = raw.height;
+      const px = p.getContext("2d"); px.drawImage(raw, 0, 0);
+      applyFilter(px, p.width, p.height, F.p);
+      const mat = Math.max(6, 8 * s);
+      x.fillStyle = T.mat; x.fillRect(slot.x - mat, slot.y - mat, slot.w + mat * 2, slot.h + mat * 2);
+      x.drawImage(p, slot.x, slot.y, slot.w, slot.h);
     });
 
-    // decorations over photo corners
-    const lastY = M + (L.rows - 1) * (PH + G) + PH, lastX = W - M;
-    if (T.id === "garden") {
-      sprig(x, M * .2, M + 60 * u, .85 * u, false, ["#5E7A5A", "#2F4A3A", "#B7C7AE", "#FFFDF8"]);
-      sprig(x, W - M * .2, lastY + 40 * u, .9 * u, true, ["#5E7A5A", "#2F4A3A", "#B7C7AE", "#FFFDF8"]);
-    }
-    if (T.id === "frangipani") {
-      blossom(x, M + 8 * u, M + 8 * u, 44 * u, .4, "#FFFFFF", "#E2B8A8", "#EFC45E");
-      blossom(x, M + 58 * u, M - 6 * u, 28 * u, 1.3, "#FFFFFF", "#E2B8A8", "#EFC45E");
-      blossom(x, lastX - 8 * u, lastY - 8 * u, 44 * u, 2.2, "#FFFFFF", "#E2B8A8", "#EFC45E");
-    }
-    if (T.id === "night") {
-      x.strokeStyle = T.line; x.lineWidth = 1.5 * u;
-      x.strokeRect(M * .45, M * .45, W - M * .9, H - M * .9);
-      sprig(x, W - M * .1, lastY + 50 * u, .8 * u, true, ["#8FB08A", "#6F9270", "#B7C7AE", null]);
-    }
+    const first = L.slots[0], last = L.slots[L.slots.length - 1];
+    const ss = Math.min(1.25, .75 * s + .2);
+    sprig(x, first.x - 26 * ss, first.y + 70 * ss, ss, false, T);
+    sprig(x, last.x + last.w + 26 * ss, last.y + last.h - 10 * ss, ss, true, T);
 
-    // footer text
-    const fy = lastY, cx = W / 2;
-    x.textAlign = "center"; x.textBaseline = "alphabetic";
-    const isScript = T.font === "Pinyon Script";
-    x.fillStyle = T.name1;
-    let size = (isScript ? 92 : 70) * u;
-    x.font = size + 'px "' + T.font + '", Georgia, serif';
-    const title = "Hansen & Yunita";
-    while (x.measureText(title).width > W - 2 * M && size > 30) { size -= 2; x.font = size + 'px "' + T.font + '", Georgia, serif'; }
-    x.fillText(title, cx, fy + (isScript ? 125 : 118) * u);
-    x.fillStyle = T.sub; x.font = '600 ' + Math.round(24 * u) + 'px "Nunito Sans", system-ui, sans-serif';
-    x.fillText("17 October 2026  \u00b7  Bali", cx, fy + 170 * u);
-    const guest = $("guestName").value.trim();
-    if (guest) { x.font = '400 ' + Math.round(22 * u) + 'px "Nunito Sans", system-ui, sans-serif'; x.fillText("with love, " + guest, cx, fy + 210 * u); }
-    if (T.id === "garden" || T.id === "frangipani") blossom(x, cx, fy + (guest ? 246 : 212) * u, 12 * u, 0, "#FFFFFF", "#E7C3B8", "#E9B949");
-    if (T.id === "night") { x.fillStyle = T.line; x.beginPath(); x.arc(cx, fy + (guest ? 246 : 212) * u, 3 * u, 0, 7); x.fill(); }
+    nameBlock(x, L.foot, T, guest);
 
-    S.dataUrl = c.toDataURL("image/jpeg", .9);
-    S.blob = await new Promise((r) => c.toBlob(r, "image/jpeg", .9));
-    $("resultImg").src = S.dataUrl;
+    resultUrl = c.toDataURL("image/jpeg", .88);
+    resultBlob = await new Promise((r) => c.toBlob(r, "image/jpeg", .88));
+    $("resultImg").src = resultUrl;
+    if (sent) { sent = false; $("sendBtn").disabled = false; $("sendBtn").textContent = "Send this version too"; $("status").textContent = ""; }
   }
 
-  function themeChips() {
-    const el = $("themeChips"); el.innerHTML = "";
-    THEMES.forEach((T) => {
-      const b = document.createElement("button");
-      b.className = "chip"; b.dataset.id = T.id; b.setAttribute("aria-pressed", String(T === S.theme));
-      b.innerHTML = '<span class="swatch" style="background:' + T.swatch + '"></span>' + T.name;
-      b.onclick = async () => { S.theme = T; el.querySelectorAll(".chip").forEach((c) => c.setAttribute("aria-pressed", String(c.dataset.id === T.id))); resetSend(); await renderPrint(); };
-      el.appendChild(b);
-    });
-  }
-
-  // ---- Send & save ---------------------------------------------------------
-  function resetSend() {
-    S.sent = false; $("status").textContent = ""; $("status").classList.remove("err");
-    $("sendBtn").disabled = false; $("sendBtn").textContent = "Send to the couple's album";
-  }
+  // ---------- Send & save ----------
   async function send() {
-    if (S.sent || !S.dataUrl) return;
+    if (sent || !resultUrl) return;
     const btn = $("sendBtn"), st = $("status");
     btn.disabled = true; st.classList.remove("err"); st.textContent = "Sending…";
     try {
       const res = await fetch(ENDPOINT, { method: "POST", body: JSON.stringify({
-        key: UPLOAD_KEY, image: S.dataUrl, name: $("guestName").value.trim(),
-        message: ($("guestMsg").value.trim() + " [" + S.layout.name + " / " + S.theme.name + " / " + S.filter.name + "]").trim() }) });
+        key: UPLOAD_KEY, image: resultUrl, name: $("guestName").value.trim(), message: $("guestMsg").value.trim()
+      }) });
       const data = await res.json();
       if (!data.ok) throw new Error(data.error || "upload_failed");
-      S.sent = true; st.textContent = "Sent to Hansen & Yunita's album. Thank you!"; btn.textContent = "Sent";
+      sent = true; btn.textContent = "Sent";
+      st.textContent = "Sent to Hansen & Yunita's album. Thank you!";
     } catch (e) {
-      st.classList.add("err"); st.textContent = "Couldn't send. Check your internet connection and tap Send again."; btn.disabled = false;
+      st.classList.add("err"); st.textContent = "Couldn't send. Check your internet connection and tap Send again.";
+      btn.disabled = false;
     }
   }
   async function save() {
-    if (!S.blob) return;
-    const name = "hansen-yunita-" + S.layout.id + "-" + Date.now() + ".jpg";
-    const file = new File([S.blob], name, { type: "image/jpeg" });
+    if (!resultBlob) return;
+    const name = "hansen-yunita-" + state.layout.id + "-" + Date.now() + ".jpg";
+    const file = new File([resultBlob], name, { type: "image/jpeg" });
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
       try { await navigator.share({ files: [file], title: "Hansen & Yunita photo booth" }); return; }
       catch (e) { if (e.name === "AbortError") return; }
     }
-    const a = document.createElement("a"); a.href = URL.createObjectURL(S.blob); a.download = name;
+    const a = document.createElement("a"); a.href = URL.createObjectURL(resultBlob); a.download = name;
     document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
   }
 
-  // ---- Wiring --------------------------------------------------------------
-  buildLayoutCards();
-  filterChips($("camFilters"), previewFilter);
-  filterChips($("reviewFilters"), async () => { resetSend(); await renderPrint(); });
-  themeChips();
+  function resetReview() {
+    sent = false; $("status").textContent = ""; $("status").classList.remove("err");
+    $("sendBtn").disabled = false; $("sendBtn").textContent = "Send to the couple's album";
+  }
 
-  $("startBtn").onclick = () => show("layouts");
-  $("layoutsBack").onclick = () => show("welcome");
-  $("camBack").onclick = () => { stopCamera(); show("layouts"); };
+  // ---------- Wiring ----------
+  $("startBtn").onclick = () => show("layout");
+  $("layoutBack").onclick = () => show("welcome");
   $("shutterBtn").onclick = runSequence;
-  $("flipBtn").onclick = async () => { S.facing = S.facing === "user" ? "environment" : "user"; await startCamera(); };
-  $("timerBtn").onclick = () => { S.timer = S.timer === 3 ? 5 : S.timer === 5 ? 10 : 3; $("timerBtn").textContent = "Timer " + S.timer + "s"; };
-  $("flashBtn").onclick = () => { S.flash = !S.flash; $("flashBtn").textContent = S.flash ? "Flash on" : "Flash off"; $("flashBtn").setAttribute("aria-pressed", String(S.flash)); };
+  $("flipBtn").onclick = async () => { state.facing = state.facing === "user" ? "environment" : "user"; await startCamera(); };
+  $("backBtn").onclick = () => { stopCamera(); show("layout"); };
   $("sendBtn").onclick = send;
   $("saveBtn").onclick = save;
-  $("retakeBtn").onclick = openCamera;
-  $("newLayoutBtn").onclick = () => show("layouts");
-  let nameTimer;
-  $("guestName").addEventListener("input", () => { clearTimeout(nameTimer); nameTimer = setTimeout(() => { resetSend(); renderPrint(); }, 450); });
+  $("retakeBtn").onclick = async () => { resetReview(); await openCamera(); };
+  $("relayoutBtn").onclick = () => { resetReview(); show("layout"); };
+  $("guestName").addEventListener("input", () => { clearTimeout(composeTimer); composeTimer = setTimeout(compose, 350); });
+  setFilter("natural");
 })();
 </script>
 </body>
