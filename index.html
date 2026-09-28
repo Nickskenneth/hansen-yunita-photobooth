@@ -7,17 +7,11 @@
 <meta name="theme-color" content="#2F4A3A">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Nunito+Sans:wght@400;600;700&family=Pinyon+Script&display=swap" rel="stylesheet">
 <style>
   :root {
-    --leaf: #2F4A3A;
-    --moss: #5E7A5A;
-    --sage: #B7C7AE;
-    --mist: #EEF2EA;
-    --petal: #FFFDF8;
-    --pollen: #E9B949;
-    --ink: #1D2A21;
-    --blush: #E7C3B8;
+    --leaf: #2F4A3A; --moss: #5E7A5A; --sage: #B7C7AE; --mist: #EEF2EA;
+    --petal: #FFFDF8; --pollen: #E9B949; --ink: #1D2A21; --blush: #E7C3B8;
     box-sizing: border-box;
     padding-top: env(safe-area-inset-top, 0px);
     padding-bottom: env(safe-area-inset-bottom, 0px);
@@ -25,90 +19,95 @@
   *, *::before, *::after { box-sizing: inherit; }
   html, body { height: 100%; margin: 0; }
   body {
-    background: var(--mist);
-    color: var(--ink);
+    background: var(--mist); color: var(--ink);
     font-family: "Nunito Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-    font-size: 17px;
-    line-height: 1.5;
-    -webkit-tap-highlight-color: transparent;
+    font-size: 17px; line-height: 1.5; -webkit-tap-highlight-color: transparent;
   }
   .screen { display: none; min-height: 100%; }
   .screen.on { display: flex; }
-
-  /* Welcome */
-  #welcome {
-    flex-direction: column; align-items: center; justify-content: center;
-    text-align: center; padding: 32px 24px; position: relative; overflow: hidden;
-  }
-  #welcome .sprig { position: absolute; width: 190px; opacity: .95; pointer-events: none; }
-  #welcome .sprig.tl { top: -20px; left: -40px; transform: rotate(8deg); }
-  #welcome .sprig.br { bottom: -24px; right: -44px; transform: rotate(188deg); }
-  .names {
-    font-family: "Marcellus", Georgia, serif; font-weight: 400;
-    font-size: clamp(44px, 13vw, 72px); line-height: 1.02; color: var(--leaf);
-    margin: 0 0 14px; letter-spacing: .01em;
-  }
-  .names .amp { display: block; font-size: .5em; color: var(--moss); margin: 6px 0; }
-  .date { font-size: 16px; color: var(--moss); margin: 0 0 36px; letter-spacing: .06em; }
-  .lede { max-width: 30ch; margin: 0 auto 32px; color: #3c4a40; }
+  h2 { font-family: "Marcellus", Georgia, serif; font-weight: 400; color: var(--leaf); }
 
   button {
-    font: 700 17px/1 "Nunito Sans", system-ui, sans-serif;
-    border: 0; border-radius: 999px; padding: 18px 30px; cursor: pointer;
-    touch-action: manipulation;
+    font: 700 16px/1 "Nunito Sans", system-ui, sans-serif; border: 0; border-radius: 999px;
+    padding: 17px 28px; cursor: pointer; touch-action: manipulation; color: inherit; background: none;
   }
   button:focus-visible { outline: 3px solid var(--pollen); outline-offset: 3px; }
   .primary { background: var(--leaf); color: var(--petal); }
   .primary:active { background: #243a2d; }
-  .quiet { background: transparent; color: var(--leaf); box-shadow: inset 0 0 0 2px var(--sage); }
-  button:disabled { opacity: .5; cursor: default; }
+  .quiet { color: var(--leaf); box-shadow: inset 0 0 0 2px var(--sage); }
+  button:disabled { opacity: .45; cursor: default; }
+
+  /* Welcome */
+  #welcome { flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 32px 24px; position: relative; overflow: hidden; }
+  #welcome .sprig { position: absolute; width: 190px; pointer-events: none; }
+  #welcome .sprig.tl { top: -20px; left: -40px; transform: rotate(8deg); }
+  #welcome .sprig.br { bottom: -24px; right: -44px; transform: rotate(188deg); }
+  .names { font-family: "Marcellus", Georgia, serif; font-weight: 400; font-size: clamp(44px, 13vw, 72px); line-height: 1.02; color: var(--leaf); margin: 0 0 14px; }
+  .names .amp { display: block; font-family: "Pinyon Script", cursive; font-size: .62em; color: var(--moss); margin: 4px 0 2px; }
+  .date { font-size: 16px; color: var(--moss); margin: 0 0 36px; letter-spacing: .06em; }
+  .lede { max-width: 30ch; margin: 0 auto 32px; color: #3c4a40; }
+
+  /* Layout picker */
+  #layouts { flex-direction: column; align-items: center; padding: 20px 18px 36px; }
+  #layouts h2 { font-size: 30px; margin: 8px 0 4px; }
+  #layouts .sub { margin: 0 0 22px; color: var(--moss); text-align: center; }
+  .layout-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; width: 100%; max-width: 440px; }
+  .lcard {
+    display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 18px 10px 16px;
+    background: var(--petal); border-radius: 18px; box-shadow: inset 0 0 0 2px transparent; color: var(--ink);
+  }
+  .lcard:active, .lcard:hover { box-shadow: inset 0 0 0 2px var(--moss); }
+  .mini { height: 118px; display: flex; align-items: center; justify-content: center; }
+  .mini .sheet { background: var(--mist); padding: 5px 5px 16px; border-radius: 3px; display: grid; gap: 4px; box-shadow: 0 2px 8px rgba(47,74,58,.15); }
+  .mini .cell { background: var(--sage); border-radius: 1px; }
+  .lcard strong { font-size: 16px; }
+  .lcard span { font-size: 14px; font-weight: 400; color: var(--moss); margin-top: -8px; }
+  .back-link { margin-top: 22px; }
 
   /* Camera */
-  #camera { flex-direction: column; background: var(--leaf); height: 100%; }
-  .viewfinder { position: relative; flex: 1; overflow: hidden; background: #000; }
+  #camera { flex-direction: column; background: var(--leaf); height: 100%; color: var(--petal); }
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; gap: 8px; }
+  .topbar button { color: var(--petal); padding: 11px 16px; font-size: 15px; box-shadow: inset 0 0 0 2px var(--moss); }
+  .progress { display: flex; gap: 7px; align-items: center; }
+  .progress i { width: 9px; height: 9px; border-radius: 50%; background: var(--moss); }
+  .progress i.done { background: var(--pollen); }
+  .vf-wrap { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; padding: 4px 12px; }
+  .vf { position: relative; overflow: hidden; background: #000; border-radius: 6px; }
   video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   video.mirror { transform: scaleX(-1); }
-  .count {
-    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-    font-family: "Marcellus", Georgia, serif; font-size: 34vw; color: var(--petal);
-    text-shadow: 0 4px 30px rgba(0,0,0,.35); pointer-events: none;
-  }
-  .shotlabel {
-    position: absolute; top: 14px; left: 0; right: 0; text-align: center;
-    color: var(--petal); font-weight: 600; text-shadow: 0 1px 8px rgba(0,0,0,.5);
-  }
-  .thumbs { position: absolute; bottom: 14px; left: 14px; display: flex; gap: 8px; }
-  .thumbs img { width: 54px; height: 40px; object-fit: cover; border-radius: 6px; border: 2px solid var(--petal); }
-  .controls {
-    display: flex; align-items: center; justify-content: space-between; gap: 12px;
-    padding: 18px 20px calc(18px + env(safe-area-inset-bottom, 0px));
-  }
-  .controls .quiet { color: var(--petal); box-shadow: inset 0 0 0 2px var(--moss); padding: 14px 18px; font-size: 15px; }
-  .shutter {
-    width: 78px; height: 78px; padding: 0; border-radius: 50%;
-    background: var(--petal); box-shadow: 0 0 0 5px var(--leaf), 0 0 0 8px var(--petal);
-  }
-  .flash { position: fixed; inset: 0; background: #fff; opacity: 0; pointer-events: none; transition: opacity .25s; z-index: 20; }
+  .vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,.75) 100%); opacity: 0; }
+  .count { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: "Marcellus", Georgia, serif; font-size: min(30vw, 180px); color: var(--petal); text-shadow: 0 4px 30px rgba(0,0,0,.4); pointer-events: none; }
+  .camerr { padding: 28px; text-align: center; margin: auto; max-width: 34ch; }
+  .chips { display: flex; gap: 8px; overflow-x: auto; padding: 10px 12px; scrollbar-width: none; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip { flex: none; padding: 10px 15px; font-size: 14px; font-weight: 600; color: var(--petal); box-shadow: inset 0 0 0 1.5px var(--moss); }
+  .chip[aria-pressed="true"] { background: var(--petal); color: var(--leaf); box-shadow: none; }
+  .controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 20px calc(16px + env(safe-area-inset-bottom, 0px)); }
+  .controls .side { color: var(--petal); padding: 12px 14px; font-size: 14px; min-width: 88px; box-shadow: inset 0 0 0 2px var(--moss); }
+  .shutter { width: 76px; height: 76px; padding: 0; border-radius: 50%; background: var(--petal); box-shadow: 0 0 0 5px var(--leaf), 0 0 0 8px var(--petal); }
+  .flash { position: fixed; inset: 0; background: #fff; opacity: 0; pointer-events: none; transition: opacity .3s; z-index: 20; }
   .flash.on { opacity: 1; transition: none; }
-  .camerr { color: var(--petal); padding: 28px; text-align: center; margin: auto; max-width: 34ch; }
 
   /* Review */
-  #review { flex-direction: column; align-items: center; padding: 24px 20px 40px; gap: 20px; }
-  #review h2 { font-family: "Marcellus", Georgia, serif; font-weight: 400; font-size: 28px; color: var(--leaf); margin: 4px 0 0; }
-  .strip { width: min(78vw, 300px); height: auto; border-radius: 4px; box-shadow: 0 10px 30px rgba(47,74,58,.22); }
-  .form { width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 12px; }
+  #review { flex-direction: column; align-items: center; padding: 18px 16px 40px; gap: 16px; }
+  #review h2 { font-size: 28px; margin: 4px 0 0; }
+  .result { max-width: min(86vw, 380px); max-height: 62vh; width: auto; height: auto; border-radius: 3px; box-shadow: 0 12px 32px rgba(47,74,58,.25); }
+  .pick { width: 100%; max-width: 440px; }
+  .pick > p { margin: 0 0 6px; font-weight: 600; font-size: 15px; color: var(--leaf); }
+  .pick .chips { padding: 2px 0 6px; }
+  .pick .chip { color: var(--leaf); box-shadow: inset 0 0 0 1.5px var(--sage); display: flex; align-items: center; gap: 8px; }
+  .pick .chip[aria-pressed="true"] { background: var(--leaf); color: var(--petal); }
+  .swatch { width: 14px; height: 14px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(0,0,0,.2); }
+  .form { width: 100%; max-width: 440px; display: flex; flex-direction: column; gap: 12px; }
   label { font-weight: 600; font-size: 15px; color: var(--leaf); }
-  input, textarea {
-    width: 100%; font: 400 16px/1.4 "Nunito Sans", system-ui, sans-serif; color: var(--ink);
-    border: 2px solid var(--sage); background: var(--petal); border-radius: 12px; padding: 12px 14px; margin-top: 6px;
-  }
+  input, textarea { width: 100%; font: 400 16px/1.4 "Nunito Sans", system-ui, sans-serif; color: var(--ink); border: 2px solid var(--sage); background: var(--petal); border-radius: 12px; padding: 12px 14px; margin-top: 6px; }
   input:focus, textarea:focus { outline: none; border-color: var(--moss); }
-  textarea { min-height: 84px; resize: vertical; }
-  .actions { width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 12px; }
+  textarea { min-height: 80px; resize: vertical; }
+  .actions { width: 100%; max-width: 440px; display: flex; flex-direction: column; gap: 12px; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .status { min-height: 1.5em; text-align: center; font-weight: 600; color: var(--leaf); margin: 0; }
   .status.err { color: #9a3b2c; }
-  .hint { font-size: 14px; color: var(--moss); text-align: center; margin: 0; max-width: 34ch; }
-
+  .hint { font-size: 14px; color: var(--moss); text-align: center; margin: 0; max-width: 36ch; }
   @media (prefers-reduced-motion: reduce) { .flash { transition: none; } }
 </style>
 </head>
@@ -119,30 +118,52 @@
   <svg class="sprig br" viewBox="0 0 200 200" aria-hidden="true"><use href="#sprig"/></svg>
   <h1 class="names" id="title">Hansen<span class="amp">&amp;</span>Yunita</h1>
   <p class="date">17 October 2026</p>
-  <p class="lede">Take three photos and we'll turn them into a photo strip for you and for the couple's album.</p>
+  <p class="lede">Pick a layout, strike a pose, and your photos go to you and to the couple's album.</p>
   <button class="primary" id="startBtn">Start the photo booth</button>
 </section>
 
+<section id="layouts" class="screen" aria-labelledby="layoutsTitle">
+  <h2 id="layoutsTitle">Choose a layout</h2>
+  <p class="sub">You can change the frame and filter after.</p>
+  <div class="layout-grid" id="layoutGrid"></div>
+  <button class="quiet back-link" id="layoutsBack">Back</button>
+</section>
+
 <section id="camera" class="screen" aria-label="Camera">
-  <div class="viewfinder">
-    <video id="video" playsinline muted autoplay class="mirror"></video>
-    <div class="shotlabel" id="shotLabel">Get ready</div>
-    <div class="count" id="count" aria-live="assertive"></div>
-    <div class="thumbs" id="thumbs"></div>
+  <div class="topbar">
+    <button id="camBack">Back</button>
+    <div class="progress" id="progress" aria-label="Photo progress"></div>
+    <button id="timerBtn">Timer 3s</button>
   </div>
+  <div class="vf-wrap" id="vfWrap">
+    <div class="vf" id="vf">
+      <video id="video" playsinline muted autoplay class="mirror"></video>
+      <div class="vignette" id="vignette"></div>
+      <div class="count" id="count" aria-live="assertive"></div>
+    </div>
+  </div>
+  <div class="chips" id="camFilters" role="group" aria-label="Filters"></div>
   <div class="controls">
-    <button class="quiet" id="backBtn">Back</button>
-    <button class="shutter" id="shutterBtn" aria-label="Take 3 photos"></button>
-    <button class="quiet" id="flipBtn">Flip</button>
+    <button class="side" id="flipBtn">Flip</button>
+    <button class="shutter" id="shutterBtn" aria-label="Start taking photos"></button>
+    <button class="side" id="flashBtn" aria-pressed="true">Flash on</button>
   </div>
 </section>
 
 <section id="review" class="screen" aria-labelledby="reviewTitle">
-  <h2 id="reviewTitle">Your photo strip</h2>
-  <img class="strip" id="stripImg" alt="Your photo strip">
+  <h2 id="reviewTitle">Your photos</h2>
+  <img class="result" id="resultImg" alt="Your finished photo booth print">
+  <div class="pick">
+    <p>Frame</p>
+    <div class="chips" id="themeChips" role="group" aria-label="Frame"></div>
+  </div>
+  <div class="pick">
+    <p>Filter</p>
+    <div class="chips" id="reviewFilters" role="group" aria-label="Filter"></div>
+  </div>
   <div class="form">
-    <label>Your name (optional)
-      <input id="guestName" maxlength="40" autocomplete="name">
+    <label>Your name (optional, shown on your print)
+      <input id="guestName" maxlength="30" autocomplete="name">
     </label>
     <label>A message for Hansen &amp; Yunita (optional)
       <textarea id="guestMsg" maxlength="280"></textarea>
@@ -152,14 +173,16 @@
     <button class="primary" id="sendBtn">Send to the couple's album</button>
     <p class="status" id="status" role="status"></p>
     <button class="quiet" id="saveBtn">Save to my phone</button>
-    <button class="quiet" id="retakeBtn">Take new photos</button>
+    <div class="row2">
+      <button class="quiet" id="retakeBtn">Retake</button>
+      <button class="quiet" id="newLayoutBtn">New layout</button>
+    </div>
   </div>
-  <p class="hint">If saving doesn't start, press and hold the photo strip to save it.</p>
+  <p class="hint">If saving doesn't start, press and hold the photo to save it.</p>
 </section>
 
 <div class="flash" id="flash"></div>
 
-<!-- Botanical sprig, reused on the welcome screen -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <g id="sprig">
@@ -186,211 +209,361 @@
 (() => {
   const ENDPOINT = "https://script.google.com/macros/s/AKfycbzbLQkEyyd7aJXjafC6FZXPVSHr0cjvAhUeN6dErXVRQ5XHVhiKzK33oFmh6AqOrotM/exec";
   const UPLOAD_KEY = "hu-17okt2026-kebun";
-  const SHOTS = 3;
-  const C = { leaf: "#2F4A3A", moss: "#5E7A5A", sage: "#B7C7AE", mist: "#EEF2EA", petal: "#FFFDF8", pollen: "#E9B949", blush: "#E7C3B8" };
+
+  // ---- Options -------------------------------------------------------------
+  const LAYOUTS = [
+    { id: "strip3", name: "Classic strip", desc: "3 photos", cols: 1, rows: 3, aspect: 4 / 3, W: 800 },
+    { id: "strip4", name: "Tall strip", desc: "4 photos", cols: 1, rows: 4, aspect: 4 / 3, W: 760 },
+    { id: "duo", name: "Duo", desc: "2 photos", cols: 1, rows: 2, aspect: 4 / 3, W: 900 },
+    { id: "grid", name: "Grid", desc: "4 photos", cols: 2, rows: 2, aspect: 3 / 4, W: 1100 },
+    { id: "portrait", name: "Portrait", desc: "1 photo", cols: 1, rows: 1, aspect: 3 / 4, W: 1000 },
+    { id: "landscape", name: "Landscape", desc: "1 photo", cols: 1, rows: 1, aspect: 4 / 3, W: 1300 }
+  ];
+  const FILTERS = [
+    { id: "natural", name: "Natural", ops: [] },
+    { id: "fresh", name: "Fresh", ops: [["saturate", 1.25], ["contrast", 1.06], ["brightness", 1.04]] },
+    { id: "warm", name: "Warm glow", ops: [["sepia", .2], ["saturate", 1.15], ["brightness", 1.07]] },
+    { id: "vintage", name: "Vintage", ops: [["sepia", .42], ["saturate", .85], ["contrast", .9], ["brightness", 1.07]], vignette: .35 },
+    { id: "film", name: "Old film", ops: [["contrast", 1.14], ["saturate", .75], ["sepia", .14]], vignette: .5, grain: 22 },
+    { id: "bw", name: "B&W", ops: [["grayscale", 1], ["contrast", 1.28], ["brightness", 1.02]] },
+    { id: "softbw", name: "Soft B&W", ops: [["grayscale", 1], ["contrast", .88], ["brightness", 1.12]] },
+    { id: "sepia", name: "Sepia", ops: [["sepia", .85], ["contrast", 1.06]], vignette: .25 }
+  ];
+  const THEMES = [
+    { id: "garden", name: "Garden", swatch: "#B7C7AE", bg: "#EEF2EA", mat: "#FFFDF8", name1: "#2F4A3A", sub: "#5E7A5A", font: "Marcellus" },
+    { id: "frangipani", name: "Frangipani", swatch: "#F3D9CF", bg: "#FFFDF8", mat: "#F4E4DD", name1: "#8E5E4B", sub: "#A98272", font: "Pinyon Script" },
+    { id: "night", name: "Night garden", swatch: "#1F3328", bg: "#1F3328", mat: null, line: "#D9B870", name1: "#E6C98A", sub: "#CFD9C8", font: "Marcellus" },
+    { id: "classic", name: "Classic black", swatch: "#141414", bg: "#141414", mat: null, name1: "#F2F2F2", sub: "#A8A8A8", font: "Marcellus" }
+  ];
 
   const $ = (id) => document.getElementById(id);
   const video = $("video");
-  let stream = null, facing = "user", busy = false, photos = [], stripBlob = null, stripDataUrl = "", sent = false;
+  const S = { layout: LAYOUTS[0], filter: FILTERS[0], theme: THEMES[0], timer: 3, flash: true,
+              facing: "user", stream: null, busy: false, raw: [], mirrored: true, cache: {},
+              dataUrl: "", blob: null, sent: false };
 
   function show(id) {
     document.querySelectorAll(".screen").forEach((s) => s.classList.toggle("on", s.id === id));
     window.scrollTo(0, 0);
+    if (id === "camera") requestAnimationFrame(fitViewfinder);
+  }
+
+  // ---- Layout picker -------------------------------------------------------
+  function buildLayoutCards() {
+    const grid = $("layoutGrid");
+    LAYOUTS.forEach((L) => {
+      const b = document.createElement("button");
+      b.className = "lcard";
+      const cellW = L.cols === 1 ? (L.aspect > 1 ? (L.rows > 2 ? 44 : 62) : 58) : 36;
+      const cellH = Math.round(cellW / L.aspect);
+      b.innerHTML = '<div class="mini"><div class="sheet" style="grid-template-columns:repeat(' + L.cols + ',' + cellW + 'px)">' +
+        Array.from({ length: L.cols * L.rows }, () => '<div class="cell" style="height:' + cellH + 'px"></div>').join("") +
+        '</div></div><strong>' + L.name + '</strong><span>' + L.desc + '</span>';
+      b.onclick = () => { S.layout = L; openCamera(); };
+      grid.appendChild(b);
+    });
+  }
+
+  // ---- Filters -------------------------------------------------------------
+  function cssFilter(F) { return F.ops.map(([k, v]) => k + "(" + v + ")").join(" ") || "none"; }
+  function opMatrix(k, v) {
+    const s = 1 - v;
+    switch (k) {
+      case "grayscale": return [[.2126 + .7874 * s, .7152 - .7152 * s, .0722 - .0722 * s, 0], [.2126 - .2126 * s, .7152 + .2848 * s, .0722 - .0722 * s, 0], [.2126 - .2126 * s, .7152 - .7152 * s, .0722 + .9278 * s, 0]];
+      case "sepia": return [[.393 + .607 * s, .769 - .769 * s, .189 - .189 * s, 0], [.349 - .349 * s, .686 + .314 * s, .168 - .168 * s, 0], [.272 - .272 * s, .534 - .534 * s, .131 + .869 * s, 0]];
+      case "saturate": return [[.213 + .787 * v, .715 - .715 * v, .072 - .072 * v, 0], [.213 - .213 * v, .715 + .285 * v, .072 - .072 * v, 0], [.213 - .213 * v, .715 - .715 * v, .072 + .928 * v, 0]];
+      case "brightness": return [[v, 0, 0, 0], [0, v, 0, 0], [0, 0, v, 0]];
+      case "contrast": return [[v, 0, 0, (1 - v) / 2], [0, v, 0, (1 - v) / 2], [0, 0, v, (1 - v) / 2]];
+    }
+  }
+  function compose(A, B) { // A applied after B
+    return A.map((r) => [0, 1, 2, 3].map((j) => r[0] * B[0][j] + r[1] * B[1][j] + r[2] * B[2][j] + (j === 3 ? r[3] : 0)));
+  }
+  function applyFilter(src, F) {
+    const c = document.createElement("canvas"); c.width = src.width; c.height = src.height;
+    const x = c.getContext("2d"); x.drawImage(src, 0, 0);
+    if (F.ops.length) {
+      let M = [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0]];
+      F.ops.forEach(([k, v]) => { M = compose(opMatrix(k, v), M); });
+      const img = x.getImageData(0, 0, c.width, c.height), d = img.data, g = F.grain || 0;
+      const m = M.map((r) => [r[0], r[1], r[2], r[3] * 255]);
+      for (let i = 0; i < d.length; i += 4) {
+        const r = d[i], gg = d[i + 1], b = d[i + 2], n = g ? (Math.random() - .5) * g : 0;
+        d[i] = m[0][0] * r + m[0][1] * gg + m[0][2] * b + m[0][3] + n;
+        d[i + 1] = m[1][0] * r + m[1][1] * gg + m[1][2] * b + m[1][3] + n;
+        d[i + 2] = m[2][0] * r + m[2][1] * gg + m[2][2] * b + m[2][3] + n;
+      }
+      x.putImageData(img, 0, 0);
+    }
+    if (F.vignette) {
+      const w = c.width, h = c.height, gr = x.createRadialGradient(w / 2, h / 2, Math.min(w, h) * .35, w / 2, h / 2, Math.hypot(w, h) / 2);
+      gr.addColorStop(0, "rgba(0,0,0,0)"); gr.addColorStop(1, "rgba(0,0,0," + F.vignette + ")");
+      x.fillStyle = gr; x.fillRect(0, 0, w, h);
+    }
+    return c;
+  }
+  function filterChips(el, onPick) {
+    el.innerHTML = "";
+    FILTERS.forEach((F) => {
+      const b = document.createElement("button");
+      b.className = "chip"; b.textContent = F.name; b.dataset.id = F.id;
+      b.setAttribute("aria-pressed", String(F === S.filter));
+      b.onclick = () => { S.filter = F; syncFilterChips(); onPick(); };
+      el.appendChild(b);
+    });
+  }
+  function syncFilterChips() {
+    document.querySelectorAll("#camFilters .chip, #reviewFilters .chip").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.id === S.filter.id)));
+  }
+  function previewFilter() {
+    video.style.filter = cssFilter(S.filter);
+    $("vignette").style.opacity = S.filter.vignette ? Math.min(1, S.filter.vignette * 1.4) : 0;
+  }
+
+  // ---- Camera --------------------------------------------------------------
+  function fitViewfinder() {
+    const wrap = $("vfWrap"), vf = $("vf");
+    const aw = wrap.clientWidth - 24, ah = wrap.clientHeight - 8, a = S.layout.aspect;
+    let w = aw, h = aw / a;
+    if (h > ah) { h = ah; w = ah * a; }
+    vf.style.width = Math.max(0, w) + "px"; vf.style.height = Math.max(0, h) + "px";
+  }
+  window.addEventListener("resize", () => { if ($("camera").classList.contains("on")) fitViewfinder(); });
+
+  function renderProgress(done) {
+    const n = S.layout.cols * S.layout.rows;
+    $("progress").innerHTML = Array.from({ length: n }, (_, i) => '<i class="' + (i < done ? "done" : "") + '"></i>').join("");
   }
 
   async function startCamera() {
     stopCamera();
     try {
-      stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: facing, width: { ideal: 1440 }, height: { ideal: 1080 } }, audio: false
-      });
-      video.srcObject = stream;
-      video.classList.toggle("mirror", facing === "user");
+      S.stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: S.facing, width: { ideal: 1920 }, height: { ideal: 1440 } }, audio: false });
+      video.srcObject = S.stream;
+      video.classList.toggle("mirror", S.facing === "user");
       await video.play().catch(() => {});
-      return true;
+      $("shutterBtn").disabled = false;
     } catch (e) {
-      const vf = document.querySelector(".viewfinder");
-      vf.innerHTML = '<p class="camerr">The camera is blocked. Allow camera access for this page in your browser settings, then reload the page.</p>';
+      $("count").innerHTML = '<p class="camerr">The camera is blocked. Allow camera access for this page in your browser settings, then reload the page.</p>';
+      $("count").style.fontSize = "17px";
       $("shutterBtn").disabled = true;
-      return false;
     }
   }
-  function stopCamera() {
-    if (stream) stream.getTracks().forEach((t) => t.stop());
-    stream = null;
+  function stopCamera() { if (S.stream) S.stream.getTracks().forEach((t) => t.stop()); S.stream = null; }
+
+  async function openCamera() {
+    renderProgress(0);
+    $("count").textContent = ""; $("count").style.fontSize = "";
+    previewFilter();
+    show("camera");
+    await startCamera();
   }
 
   const wait = (ms) => new Promise((r) => setTimeout(r, ms));
-
   function grabFrame() {
-    // Crop the live video to 4:3 and keep the mirror the guest saw.
-    const vw = video.videoWidth, vh = video.videoHeight;
-    const target = 4 / 3;
-    let sw = vw, sh = vw / target;
-    if (sh > vh) { sh = vh; sw = vh * target; }
-    const sx = (vw - sw) / 2, sy = (vh - sh) / 2;
+    const vw = video.videoWidth, vh = video.videoHeight, a = S.layout.aspect;
+    let sw = vw, sh = vw / a;
+    if (sh > vh) { sh = vh; sw = vh * a; }
+    const long = 1400;
     const c = document.createElement("canvas");
-    c.width = 1200; c.height = 900;
+    if (a >= 1) { c.width = long; c.height = Math.round(long / a); } else { c.height = long; c.width = Math.round(long * a); }
     const x = c.getContext("2d");
-    if (facing === "user") { x.translate(c.width, 0); x.scale(-1, 1); }
-    x.drawImage(video, sx, sy, sw, sh, 0, 0, c.width, c.height);
+    if (S.facing === "user") { x.translate(c.width, 0); x.scale(-1, 1); }
+    x.drawImage(video, (vw - sw) / 2, (vh - sh) / 2, sw, sh, 0, 0, c.width, c.height);
     return c;
   }
 
+  function setCamButtons(on) { ["shutterBtn", "flipBtn", "flashBtn", "timerBtn", "camBack"].forEach((id) => { $(id).disabled = !on; }); }
+
   async function runSequence() {
-    if (busy || !stream) return;
-    busy = true; photos = [];
-    $("thumbs").innerHTML = "";
-    $("shutterBtn").disabled = true; $("flipBtn").disabled = true; $("backBtn").disabled = true;
-    for (let i = 0; i < SHOTS; i++) {
-      $("shotLabel").textContent = "Photo " + (i + 1) + " of " + SHOTS;
-      for (let n = 3; n > 0; n--) { $("count").textContent = n; await wait(900); }
+    if (S.busy || !S.stream) return;
+    S.busy = true; S.raw = []; S.cache = {};
+    setCamButtons(false);
+    const n = S.layout.cols * S.layout.rows;
+    for (let i = 0; i < n; i++) {
+      renderProgress(i);
+      for (let t = S.timer; t > 0; t--) { $("count").textContent = t; await wait(1000); }
       $("count").textContent = "";
-      $("flash").classList.add("on");          // bright screen helps front cameras in low light
-      await wait(120);
-      const frame = grabFrame();
-      photos.push(frame);
+      if (S.flash) { $("flash").classList.add("on"); await wait(140); }
+      S.raw.push(grabFrame());
       $("flash").classList.remove("on");
-      const t = new Image(); t.src = frame.toDataURL("image/jpeg", .5); t.alt = "";
-      $("thumbs").appendChild(t);
-      await wait(700);
+      renderProgress(i + 1);
+      await wait(600);
     }
-    $("shotLabel").textContent = "Making your strip…";
-    await buildStrip();
     stopCamera();
-    busy = false;
-    $("shutterBtn").disabled = false; $("flipBtn").disabled = false; $("backBtn").disabled = false;
-    sent = false;
-    $("status").textContent = ""; $("status").classList.remove("err");
-    $("sendBtn").disabled = false; $("sendBtn").textContent = "Send to the couple's album";
+    S.busy = false; setCamButtons(true);
+    resetSend();
+    await renderPrint();
     show("review");
   }
 
-  // --- Strip drawing -------------------------------------------------------
-  function leaf(x, ctx, cx, cy, len, ang, color) {
-    ctx.save(); ctx.translate(cx, cy); ctx.rotate(ang);
-    ctx.fillStyle = color; ctx.beginPath();
-    ctx.moveTo(0, 0);
-    ctx.bezierCurveTo(len * .3, -len * .28, len * .75, -len * .22, len, 0);
-    ctx.bezierCurveTo(len * .75, len * .22, len * .3, len * .28, 0, 0);
-    ctx.fill();
-    ctx.strokeStyle = "rgba(255,253,248,.35)"; ctx.lineWidth = 1.5;
-    ctx.beginPath(); ctx.moveTo(len * .08, 0); ctx.lineTo(len * .9, 0); ctx.stroke();
-    ctx.restore();
+  // ---- Drawing helpers -----------------------------------------------------
+  function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+  function leaf(x, cx, cy, len, ang, color) {
+    x.save(); x.translate(cx, cy); x.rotate(ang); x.fillStyle = color; x.beginPath();
+    x.moveTo(0, 0); x.bezierCurveTo(len * .3, -len * .28, len * .75, -len * .22, len, 0);
+    x.bezierCurveTo(len * .75, len * .22, len * .3, len * .28, 0, 0); x.fill(); x.restore();
   }
-  function frangipani(ctx, cx, cy, r, rot) {
-    ctx.save(); ctx.translate(cx, cy); ctx.rotate(rot);
+  function blossom(x, cx, cy, r, rot, petal, edge, heart) {
+    x.save(); x.translate(cx, cy); x.rotate(rot);
     for (let i = 0; i < 5; i++) {
-      ctx.save(); ctx.rotate(i * Math.PI * 2 / 5);
-      ctx.beginPath(); ctx.ellipse(r * .35, -r * .55, r * .38, r * .72, .5, 0, Math.PI * 2);
-      ctx.fillStyle = C.petal; ctx.fill();
-      ctx.strokeStyle = C.blush; ctx.lineWidth = 2; ctx.stroke();
-      ctx.restore();
+      x.save(); x.rotate(i * Math.PI * 2 / 5); x.beginPath();
+      x.ellipse(r * .35, -r * .55, r * .38, r * .72, .5, 0, Math.PI * 2);
+      x.fillStyle = petal; x.fill(); x.strokeStyle = edge; x.lineWidth = Math.max(1, r * .05); x.stroke(); x.restore();
     }
-    const g = ctx.createRadialGradient(0, 0, 0, 0, 0, r * .45);
-    g.addColorStop(0, C.pollen); g.addColorStop(1, "rgba(233,185,73,0)");
-    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(0, 0, r * .45, 0, Math.PI * 2); ctx.fill();
-    ctx.restore();
+    const g = x.createRadialGradient(0, 0, 0, 0, 0, r * .5);
+    g.addColorStop(0, heart); g.addColorStop(1, "rgba(233,185,73,0)");
+    x.fillStyle = g; x.beginPath(); x.arc(0, 0, r * .5, 0, Math.PI * 2); x.fill(); x.restore();
   }
-  function sprig(ctx, x, y, scale, flip) {
-    ctx.save(); ctx.translate(x, y); ctx.scale(flip ? -scale : scale, scale);
-    ctx.strokeStyle = C.moss; ctx.lineWidth = 4; ctx.lineCap = "round";
-    ctx.beginPath(); ctx.moveTo(0, 0); ctx.bezierCurveTo(60, -40, 120, -60, 210, -70); ctx.stroke();
-    leaf(null, ctx, 40, -22, 80, -1.9, C.leaf);
-    leaf(null, ctx, 70, -38, 90, -.2, C.moss);
-    leaf(null, ctx, 110, -52, 85, -1.7, C.sage);
-    leaf(null, ctx, 150, -62, 80, .1, C.leaf);
-    leaf(null, ctx, 185, -68, 60, -1.3, C.moss);
-    frangipani(ctx, 215, -72, 38, .3);
-    frangipani(ctx, 150, -100, 26, 1.1);
-    ctx.restore();
+  function sprig(x, px, py, sc, flip, cols) {
+    x.save(); x.translate(px, py); x.scale(flip ? -sc : sc, sc);
+    x.strokeStyle = cols[0]; x.lineWidth = 4; x.lineCap = "round";
+    x.beginPath(); x.moveTo(0, 0); x.bezierCurveTo(60, -40, 120, -60, 210, -70); x.stroke();
+    leaf(x, 40, -22, 80, -1.9, cols[1]); leaf(x, 70, -38, 90, -.2, cols[0]); leaf(x, 110, -52, 85, -1.7, cols[2]);
+    leaf(x, 150, -62, 80, .1, cols[1]); leaf(x, 185, -68, 60, -1.3, cols[0]);
+    if (cols[3]) { blossom(x, 215, -72, 38, .3, cols[3], "#E7C3B8", "#E9B949"); blossom(x, 150, -100, 26, 1.1, cols[3], "#E7C3B8", "#E9B949"); }
+    x.restore();
   }
 
-  async function buildStrip() {
-    try { await document.fonts.load('64px "Marcellus"'); await document.fonts.load('600 26px "Nunito Sans"'); } catch (e) {}
-    const W = 800, M = 48, G = 24, PW = W - M * 2, PH = PW * 3 / 4, FOOT = 330;
-    const H = M + SHOTS * PH + (SHOTS - 1) * G + FOOT;
+  // ---- Compose the print ---------------------------------------------------
+  async function renderPrint() {
+    try { await Promise.all(['64px "Marcellus"', '80px "Pinyon Script"', '600 26px "Nunito Sans"'].map((f) => document.fonts.load(f))); } catch (e) {}
+    const L = S.layout, T = S.theme, F = S.filter;
+    const u = Math.min(L.W, 1000) / 800;
+    const M = Math.round((L.cols === 1 && L.rows === 1 ? 60 : 44) * u), G = Math.round(22 * u);
+    const FOOT = Math.round((L.rows >= 3 ? 290 : 260) * u);
+    const PW = (L.W - 2 * M - (L.cols - 1) * G) / L.cols, PH = PW / L.aspect;
+    const W = L.W, H = Math.round(M + L.rows * PH + (L.rows - 1) * G + FOOT);
     const c = document.createElement("canvas"); c.width = W; c.height = H;
     const x = c.getContext("2d");
+    const R = rng(17102026);
 
-    x.fillStyle = C.mist; x.fillRect(0, 0, W, H);
-    // faint leaf texture in the paper
-    x.globalAlpha = .08;
-    for (let i = 0; i < 14; i++) leaf(null, x, (i * 137) % W, 60 + (i * 211) % (H - 200), 70, (i * 1.3) % 6.28, C.leaf);
-    x.globalAlpha = 1;
+    // paper
+    x.fillStyle = T.bg; x.fillRect(0, 0, W, H);
+    if (T.id === "garden") { x.globalAlpha = .08; for (let i = 0; i < 18; i++) leaf(x, R() * W, R() * H, 70 * u, R() * 6.28, "#2F4A3A"); x.globalAlpha = 1; }
+    if (T.id === "night") { x.globalAlpha = .12; for (let i = 0; i < 22; i++) leaf(x, R() * W, R() * H, 90 * u, R() * 6.28, "#8FB08A"); x.globalAlpha = 1; }
+    if (T.id === "frangipani") {
+      for (let i = 0; i < 26; i++) {
+        const edge = R(), side = Math.floor(R() * 4), r = (14 + R() * 16) * u;
+        const px = side === 0 ? edge * W : side === 1 ? W - R() * M : side === 2 ? edge * W : R() * M;
+        const py = side === 0 ? R() * M : side === 1 ? edge * H : side === 2 ? H - R() * M * .8 : edge * H;
+        blossom(x, px, py, r, R() * 6.28, "#FFFFFF", "#EBC9BC", "#EFC45E");
+      }
+    }
 
-    photos.forEach((p, i) => {
-      const py = M + i * (PH + G);
-      x.fillStyle = C.petal; x.fillRect(M - 6, py - 6, PW + 12, PH + 12);
-      x.drawImage(p, M, py, PW, PH);
+    // photos
+    const cacheKey = F.id;
+    if (!S.cache[cacheKey]) S.cache[cacheKey] = S.raw.map((r) => applyFilter(r, F));
+    const shots = S.cache[cacheKey];
+    shots.forEach((p, i) => {
+      const col = i % L.cols, row = Math.floor(i / L.cols);
+      const px = M + col * (PW + G), py = M + row * (PH + G);
+      if (T.mat) { x.fillStyle = T.mat; x.fillRect(px - 6 * u, py - 6 * u, PW + 12 * u, PH + 12 * u); }
+      x.drawImage(p, px, py, PW, PH);
+      if (T.line) { x.strokeStyle = T.line; x.lineWidth = 1.5 * u; x.strokeRect(px - 5 * u, py - 5 * u, PW + 10 * u, PH + 10 * u); }
     });
 
-    // sprigs climbing onto the first and last photo corners
-    sprig(x, 10, M + 70, .9, false);
-    sprig(x, W - 10, M + 2 * (PH + G) + PH + 40, .95, true);
+    // decorations over photo corners
+    const lastY = M + (L.rows - 1) * (PH + G) + PH, lastX = W - M;
+    if (T.id === "garden") {
+      sprig(x, M * .2, M + 60 * u, .85 * u, false, ["#5E7A5A", "#2F4A3A", "#B7C7AE", "#FFFDF8"]);
+      sprig(x, W - M * .2, lastY + 40 * u, .9 * u, true, ["#5E7A5A", "#2F4A3A", "#B7C7AE", "#FFFDF8"]);
+    }
+    if (T.id === "frangipani") {
+      blossom(x, M + 8 * u, M + 8 * u, 44 * u, .4, "#FFFFFF", "#E2B8A8", "#EFC45E");
+      blossom(x, M + 58 * u, M - 6 * u, 28 * u, 1.3, "#FFFFFF", "#E2B8A8", "#EFC45E");
+      blossom(x, lastX - 8 * u, lastY - 8 * u, 44 * u, 2.2, "#FFFFFF", "#E2B8A8", "#EFC45E");
+    }
+    if (T.id === "night") {
+      x.strokeStyle = T.line; x.lineWidth = 1.5 * u;
+      x.strokeRect(M * .45, M * .45, W - M * .9, H - M * .9);
+      sprig(x, W - M * .1, lastY + 50 * u, .8 * u, true, ["#8FB08A", "#6F9270", "#B7C7AE", null]);
+    }
 
-    const fy = M + SHOTS * PH + (SHOTS - 1) * G;
-    x.textAlign = "center"; x.fillStyle = C.leaf;
-    x.font = '76px "Marcellus", Georgia, serif';
-    x.fillText("Hansen & Yunita", W / 2, fy + 140);
-    x.fillStyle = C.moss; x.font = '600 28px "Nunito Sans", system-ui, sans-serif';
-    x.fillText("17 October 2026  ·  Bali", W / 2, fy + 196);
-    x.strokeStyle = C.sage; x.lineWidth = 2;
-    x.beginPath(); x.moveTo(W / 2 - 60, fy + 236); x.lineTo(W / 2 + 60, fy + 236); x.stroke();
-    frangipani(x, W / 2, fy + 236, 16, 0);
+    // footer text
+    const fy = lastY, cx = W / 2;
+    x.textAlign = "center"; x.textBaseline = "alphabetic";
+    const isScript = T.font === "Pinyon Script";
+    x.fillStyle = T.name1;
+    let size = (isScript ? 92 : 70) * u;
+    x.font = size + 'px "' + T.font + '", Georgia, serif';
+    const title = "Hansen & Yunita";
+    while (x.measureText(title).width > W - 2 * M && size > 30) { size -= 2; x.font = size + 'px "' + T.font + '", Georgia, serif'; }
+    x.fillText(title, cx, fy + (isScript ? 125 : 118) * u);
+    x.fillStyle = T.sub; x.font = '600 ' + Math.round(24 * u) + 'px "Nunito Sans", system-ui, sans-serif';
+    x.fillText("17 October 2026  \u00b7  Bali", cx, fy + 170 * u);
+    const guest = $("guestName").value.trim();
+    if (guest) { x.font = '400 ' + Math.round(22 * u) + 'px "Nunito Sans", system-ui, sans-serif'; x.fillText("with love, " + guest, cx, fy + 210 * u); }
+    if (T.id === "garden" || T.id === "frangipani") blossom(x, cx, fy + (guest ? 246 : 212) * u, 12 * u, 0, "#FFFFFF", "#E7C3B8", "#E9B949");
+    if (T.id === "night") { x.fillStyle = T.line; x.beginPath(); x.arc(cx, fy + (guest ? 246 : 212) * u, 3 * u, 0, 7); x.fill(); }
 
-    stripDataUrl = c.toDataURL("image/jpeg", .88);
-    stripBlob = await new Promise((r) => c.toBlob(r, "image/jpeg", .88));
-    $("stripImg").src = stripDataUrl;
+    S.dataUrl = c.toDataURL("image/jpeg", .9);
+    S.blob = await new Promise((r) => c.toBlob(r, "image/jpeg", .9));
+    $("resultImg").src = S.dataUrl;
   }
 
-  // --- Send & save ---------------------------------------------------------
+  function themeChips() {
+    const el = $("themeChips"); el.innerHTML = "";
+    THEMES.forEach((T) => {
+      const b = document.createElement("button");
+      b.className = "chip"; b.dataset.id = T.id; b.setAttribute("aria-pressed", String(T === S.theme));
+      b.innerHTML = '<span class="swatch" style="background:' + T.swatch + '"></span>' + T.name;
+      b.onclick = async () => { S.theme = T; el.querySelectorAll(".chip").forEach((c) => c.setAttribute("aria-pressed", String(c.dataset.id === T.id))); resetSend(); await renderPrint(); };
+      el.appendChild(b);
+    });
+  }
+
+  // ---- Send & save ---------------------------------------------------------
+  function resetSend() {
+    S.sent = false; $("status").textContent = ""; $("status").classList.remove("err");
+    $("sendBtn").disabled = false; $("sendBtn").textContent = "Send to the couple's album";
+  }
   async function send() {
-    if (sent || !stripDataUrl) return;
+    if (S.sent || !S.dataUrl) return;
     const btn = $("sendBtn"), st = $("status");
     btn.disabled = true; st.classList.remove("err"); st.textContent = "Sending…";
     try {
-      const res = await fetch(ENDPOINT, {
-        method: "POST",
-        body: JSON.stringify({
-          key: UPLOAD_KEY, image: stripDataUrl,
-          name: $("guestName").value.trim(), message: $("guestMsg").value.trim()
-        })
-      });
+      const res = await fetch(ENDPOINT, { method: "POST", body: JSON.stringify({
+        key: UPLOAD_KEY, image: S.dataUrl, name: $("guestName").value.trim(),
+        message: ($("guestMsg").value.trim() + " [" + S.layout.name + " / " + S.theme.name + " / " + S.filter.name + "]").trim() }) });
       const data = await res.json();
       if (!data.ok) throw new Error(data.error || "upload_failed");
-      sent = true;
-      st.textContent = "Sent to Hansen & Yunita's album. Thank you!";
-      btn.textContent = "Sent";
+      S.sent = true; st.textContent = "Sent to Hansen & Yunita's album. Thank you!"; btn.textContent = "Sent";
     } catch (e) {
-      st.classList.add("err");
-      st.textContent = "Couldn't send. Check your internet connection and tap Send again.";
-      btn.disabled = false;
+      st.classList.add("err"); st.textContent = "Couldn't send. Check your internet connection and tap Send again."; btn.disabled = false;
     }
   }
-
   async function save() {
-    if (!stripBlob) return;
-    const name = "hansen-yunita-photobooth-" + Date.now() + ".jpg";
-    const file = new File([stripBlob], name, { type: "image/jpeg" });
+    if (!S.blob) return;
+    const name = "hansen-yunita-" + S.layout.id + "-" + Date.now() + ".jpg";
+    const file = new File([S.blob], name, { type: "image/jpeg" });
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
-      try { await navigator.share({ files: [file], title: "Hansen & Yunita photo strip" }); return; }
+      try { await navigator.share({ files: [file], title: "Hansen & Yunita photo booth" }); return; }
       catch (e) { if (e.name === "AbortError") return; }
     }
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(stripBlob); a.download = name;
-    document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    const a = document.createElement("a"); a.href = URL.createObjectURL(S.blob); a.download = name;
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
   }
 
-  // --- Wiring --------------------------------------------------------------
-  $("startBtn").onclick = async () => { show("camera"); $("shotLabel").textContent = "Tap the button when you're ready"; await startCamera(); };
+  // ---- Wiring --------------------------------------------------------------
+  buildLayoutCards();
+  filterChips($("camFilters"), previewFilter);
+  filterChips($("reviewFilters"), async () => { resetSend(); await renderPrint(); });
+  themeChips();
+
+  $("startBtn").onclick = () => show("layouts");
+  $("layoutsBack").onclick = () => show("welcome");
+  $("camBack").onclick = () => { stopCamera(); show("layouts"); };
   $("shutterBtn").onclick = runSequence;
-  $("flipBtn").onclick = async () => { facing = facing === "user" ? "environment" : "user"; await startCamera(); };
-  $("backBtn").onclick = () => { stopCamera(); show("welcome"); };
+  $("flipBtn").onclick = async () => { S.facing = S.facing === "user" ? "environment" : "user"; await startCamera(); };
+  $("timerBtn").onclick = () => { S.timer = S.timer === 3 ? 5 : S.timer === 5 ? 10 : 3; $("timerBtn").textContent = "Timer " + S.timer + "s"; };
+  $("flashBtn").onclick = () => { S.flash = !S.flash; $("flashBtn").textContent = S.flash ? "Flash on" : "Flash off"; $("flashBtn").setAttribute("aria-pressed", String(S.flash)); };
   $("sendBtn").onclick = send;
   $("saveBtn").onclick = save;
-  $("retakeBtn").onclick = async () => { show("camera"); $("thumbs").innerHTML = ""; $("shotLabel").textContent = "Tap the button when you're ready"; await startCamera(); };
+  $("retakeBtn").onclick = openCamera;
+  $("newLayoutBtn").onclick = () => show("layouts");
+  let nameTimer;
+  $("guestName").addEventListener("input", () => { clearTimeout(nameTimer); nameTimer = setTimeout(() => { resetSend(); renderPrint(); }, 450); });
 })();
 </script>
 </body>
