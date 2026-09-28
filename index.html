@@ -441,7 +441,9 @@
         rec.onstop = () => resolve(chunks.length ? new Blob(chunks, { type: mime }) : null);
         try { rec.stop(); } catch (e) { resolve(null); }
       });
-      if (blob) liveUrl = URL.createObjectURL(blob);
+      // A too-small blob is a recording that failed silently (no real frames) —
+      // skip it rather than offering a "live" version that can't actually play.
+      if (blob && blob.size > 4000) liveUrl = URL.createObjectURL(blob);
     }
     return { raw, liveUrl };
   }
@@ -515,13 +517,17 @@
     }
     // Poster keeps the still visible while the clip loads, and dynamically inserted
     // <video> elements don't always honor the autoplay attribute — play() explicitly instead.
-    holder.innerHTML = `<video style="aspect-ratio:${ar}" muted loop playsinline poster="${still}"></video>`;
+    // Controls stay on so a failed autoplay is still recoverable (tap to play) instead of a blank box.
+    holder.innerHTML = `<video style="aspect-ratio:${ar}; background:#000" muted loop playsinline webkit-playsinline controls poster="${still}"></video>`;
     const v = holder.querySelector("video");
-    v.src = lives[i];
-    v.play().catch(() => {
+    const revert = () => {
       card.classList.remove("playing");
       holder.innerHTML = `<img src="${still}" style="aspect-ratio:${ar}" alt="Photo ${i + 1}">`;
-    });
+    };
+    v.onerror = revert;
+    v.src = lives[i];
+    v.load();
+    v.play().catch(() => {}); // autoplay may be blocked; controls let the guest tap play themselves
   }
   $("checkgrid").addEventListener("click", (e) => {
     const rb = e.target.closest(".retakeBtn");
