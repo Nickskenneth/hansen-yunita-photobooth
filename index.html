@@ -105,11 +105,9 @@
   .shotcard { position: relative; border-radius: 8px; overflow: hidden; background: #0e1a13;
     box-shadow: 0 0 0 3px rgba(255,253,248,.85); }
   .shotcard .media { display: block; }
-  .shotcard img, .shotcard video { display: block; height: 150px; width: auto; max-width: 58vw; object-fit: cover; }
+  .shotcard img { display: block; height: 150px; width: auto; max-width: 58vw; object-fit: cover; }
   .shotcard .num { position: absolute; top: 6px; left: 6px; background: rgba(15,22,18,.75); color: var(--petal);
     font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; }
-  .shotcard .live-badge { position: absolute; top: 6px; right: 6px; background: rgba(15,22,18,.75); color: var(--pollen);
-    font-size: 10px; font-weight: 700; letter-spacing: .05em; padding: 2px 8px; border-radius: 999px; }
   .shotcard .retakeBtn { position: absolute; left: 6px; right: 6px; bottom: 6px; padding: 7px 0; font-size: 12.5px;
     border-radius: 999px; background: rgba(15,22,18,.82); color: var(--petal); font-weight: 700; }
   #shotcheck .controls2 { display: flex; gap: 12px; margin-top: 4px; }
@@ -186,7 +184,7 @@
 
 <section id="shotcheck" class="screen" aria-labelledby="shotcheckTitle">
   <h2 id="shotcheckTitle">Check your photos</h2>
-  <p class="sub">Tap Retake to redo a shot. Tap a photo marked LIVE to watch it move.</p>
+  <p class="sub">Tap Retake to redo a shot.</p>
   <div class="checkgrid" id="checkgrid"></div>
   <div class="controls2">
     <button class="quiet" id="shotcheckRestart">Start over</button>
@@ -298,7 +296,7 @@
   const $ = (id) => document.getElementById(id);
   const video = $("video");
   const state = { layout: LAYOUTS[0], theme: "garden", filter: "natural", facing: "user" };
-  let stream = null, busy = false, raws = [], lives = [], retakeIndex = null, resultBlob = null, resultUrl = "", sent = false;
+  let stream = null, busy = false, raws = [], retakeIndex = null, resultBlob = null, resultUrl = "", sent = false;
 
   function show(id) {
     document.querySelectorAll(".screen").forEach((s) => s.classList.toggle("on", s.id === id));
@@ -371,15 +369,10 @@
   }
   function stopCamera() { if (stream) stream.getTracks().forEach((t) => t.stop()); stream = null; }
 
-  function revokeLives() {
-    lives.forEach((u) => { if (u) { try { URL.revokeObjectURL(u); } catch (e) {} } });
-  }
-
   async function openCamera() {
     show("camera");
     retakeIndex = null;
-    revokeLives();
-    raws = []; lives = []; $("thumbs").innerHTML = "";
+    raws = []; $("thumbs").innerHTML = "";
     const n = state.layout.slots.length;
     $("shotLabel").textContent = n === 1 ? "Tap the button when you're ready" : `Tap the button to take ${n} photos`;
     renderChips($("camFilters"));
@@ -403,59 +396,26 @@
     return c;
   }
 
-  // A short muted clip bracketing the shot, played back like a "live photo".
-  // Guest-facing only for now — not uploaded, just kept in memory for this session.
-  function pickLiveMime() {
-    if (!window.MediaRecorder) return "";
-    const cands = ["video/mp4;codecs=h264", "video/mp4", "video/webm;codecs=vp9", "video/webm;codecs=vp8", "video/webm"];
-    for (const m of cands) { try { if (MediaRecorder.isTypeSupported(m)) return m; } catch (e) {} }
-    return "";
-  }
-
   async function captureOne(i) {
     const slots = state.layout.slots;
     $("shotLabel").textContent = slots.length > 1 ? `Photo ${i + 1} of ${slots.length}` : "Smile!";
-    const mime = stream ? pickLiveMime() : "";
-    let rec = null, chunks = [];
-    for (let n = 3; n > 0; n--) {
-      $("count").textContent = n;
-      if (n === 1 && mime && !rec) {
-        try {
-          rec = new MediaRecorder(stream, { mimeType: mime });
-          rec.ondataavailable = (e) => { if (e.data && e.data.size) chunks.push(e.data); };
-          rec.start();
-        } catch (e) { rec = null; }
-      }
-      await wait(900);
-    }
+    for (let n = 3; n > 0; n--) { $("count").textContent = n; await wait(900); }
     $("count").textContent = "";
     $("flash").classList.add("on");  // bright screen helps front cameras in low light
     await wait(120);
     const raw = grabRaw(slots[i]);
     $("flash").classList.remove("on");
-
-    let liveUrl = "";
-    if (rec) {
-      await wait(450); // a little motion right after the shot, like a live photo
-      const blob = await new Promise((resolve) => {
-        rec.onstop = () => resolve(chunks.length ? new Blob(chunks, { type: mime }) : null);
-        try { rec.stop(); } catch (e) { resolve(null); }
-      });
-      // A too-small blob is a recording that failed silently (no real frames) —
-      // skip it rather than offering a "live" version that can't actually play.
-      if (blob && blob.size > 4000) liveUrl = URL.createObjectURL(blob);
-    }
-    return { raw, liveUrl };
+    return raw;
   }
 
   async function runSequence() {
     if (busy || !stream) return;
-    busy = true; raws = []; lives = []; $("thumbs").innerHTML = "";
+    busy = true; raws = []; $("thumbs").innerHTML = "";
     ["shutterBtn", "flipBtn", "backBtn"].forEach((id) => $(id).disabled = true);
     const slots = state.layout.slots;
     for (let i = 0; i < slots.length; i++) {
-      const { raw, liveUrl } = await captureOne(i);
-      raws[i] = raw; lives[i] = liveUrl;
+      const raw = await captureOne(i);
+      raws[i] = raw;
       const t = new Image(); t.alt = ""; t.src = raw.toDataURL("image/jpeg", .4);
       $("thumbs").appendChild(t);
       await wait(250);
@@ -471,10 +431,7 @@
     busy = true;
     ["shutterBtn", "flipBtn", "backBtn"].forEach((id) => $(id).disabled = true);
     const i = retakeIndex;
-    const { raw, liveUrl } = await captureOne(i);
-    raws[i] = raw;
-    if (lives[i]) { try { URL.revokeObjectURL(lives[i]); } catch (e) {} }
-    lives[i] = liveUrl;
+    raws[i] = await captureOne(i);
     retakeIndex = null;
     busy = false;
     ["shutterBtn", "flipBtn", "backBtn"].forEach((id) => $(id).disabled = false);
@@ -493,47 +450,21 @@
     else startCamera();
   }
 
-  // ---------- Shot check: confirm each photo, retake, or preview the live clip ----------
+  // ---------- Shot check: confirm each photo or retake it ----------
   function renderShotcheck() {
     const L = state.layout;
     $("checkgrid").innerHTML = L.slots.map((s, i) => {
       const ar = (s.w / s.h).toFixed(3);
       return `<div class="shotcard" data-i="${i}">
         <span class="num">${i + 1}</span>
-        ${lives[i] ? '<span class="live-badge">LIVE</span>' : ""}
         <div class="media"><img src="${raws[i].toDataURL("image/jpeg", .72)}" style="aspect-ratio:${ar}" alt="Photo ${i + 1}"></div>
         <button class="retakeBtn" data-i="${i}" type="button">Retake</button>
       </div>`;
     }).join("");
   }
-  function toggleLive(card, i) {
-    const s = state.layout.slots[i], ar = (s.w / s.h).toFixed(3);
-    const holder = card.querySelector(".media");
-    const still = raws[i].toDataURL("image/jpeg", .72);
-    const playing = card.classList.toggle("playing");
-    if (!playing) {
-      holder.innerHTML = `<img src="${still}" style="aspect-ratio:${ar}" alt="Photo ${i + 1}">`;
-      return;
-    }
-    // Poster keeps the still visible while the clip loads, and dynamically inserted
-    // <video> elements don't always honor the autoplay attribute — play() explicitly instead.
-    // Controls stay on so a failed autoplay is still recoverable (tap to play) instead of a blank box.
-    holder.innerHTML = `<video style="aspect-ratio:${ar}; background:#000" muted loop playsinline webkit-playsinline controls poster="${still}"></video>`;
-    const v = holder.querySelector("video");
-    const revert = () => {
-      card.classList.remove("playing");
-      holder.innerHTML = `<img src="${still}" style="aspect-ratio:${ar}" alt="Photo ${i + 1}">`;
-    };
-    v.onerror = revert;
-    v.src = lives[i];
-    v.load();
-    v.play().catch(() => {}); // autoplay may be blocked; controls let the guest tap play themselves
-  }
   $("checkgrid").addEventListener("click", (e) => {
     const rb = e.target.closest(".retakeBtn");
-    if (rb) { enterRetake(Number(rb.dataset.i)); return; }
-    const card = e.target.closest(".shotcard");
-    if (card) { const i = Number(card.dataset.i); if (lives[i]) toggleLive(card, i); }
+    if (rb) enterRetake(Number(rb.dataset.i));
   });
   $("shotcheckRestart").onclick = () => { openCamera(); };
   $("shotcheckContinue").onclick = async () => {
